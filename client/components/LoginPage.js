@@ -21,7 +21,7 @@ export default function LoginPage({ history }){
     try {
       const { data } = await axios.post('/api/login', formData)
       localStorage.setItem('token', data.token)
-      history.push('/try')
+      history.push('/music')
     } catch (err) {
       console.log(err.response)
     }

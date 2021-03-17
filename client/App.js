@@ -109,7 +109,7 @@ function App() {
         <Switch>
           <Route exact path="/not-found" component={NotFoundPage}/>
           <Route exact path="/" component={HomePage}/>
-          <Route exact path="/try" component={Sequencer}/>
+          <Route exact path="/music" component={Sequencer}/>
           <Route exact path="/register" component={RegisterPage}/>
           <Route exact path="/login" component={LoginPage}/>
           <Route exact path="/songpage" component={SongPage}/>

@@ -26,7 +26,7 @@ const Navigation = ()=>{
           <Nav.Link href="/register">Register</Nav.Link>
         </>}
         {isLoggedIn && <>
-          <Nav.Link href="/try">Make Music</Nav.Link>
+          <Nav.Link href="/music">Make Music</Nav.Link>
           <Nav.Link href="/usersongpage">My Songs</Nav.Link>
           <Nav.Link href="/songpage">The Song Community</Nav.Link>
           <Nav.Link href="/logout">Logout</Nav.Link>

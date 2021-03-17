@@ -39,7 +39,7 @@ const SongPage = ({ history }) => {
     copy.songUser = data.user
     copy.songId = songId
     setValue(copy)
-    history.push('/try')
+    history.push('/music')
   }
 
   console.log(allData, "all data")

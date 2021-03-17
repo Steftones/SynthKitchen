@@ -38,7 +38,7 @@ const UserSongPage = ({ history }) => {
     copy.songUser = data.user
     copy.songId = songId
     setValue(copy)
-    history.push('/try')
+    history.push('/music')
   }
 
   async function handleSongDelete(userId, songId){
@@ -85,7 +85,7 @@ const UserSongPage = ({ history }) => {
         <h1>Your Songs</h1>
         <p>You currently don&apos;t have any songs saved.</p>
         <p>Time to make some! Click below to get started</p>
-        <p><Button onClick={() => history.push('/try')}>Make music</Button></p>
+        <p><Button onClick={() => history.push('/music')}>Make music</Button></p>
       </Container>
   </>
 
