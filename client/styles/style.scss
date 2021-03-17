@@ -1,0 +1,265 @@
+.wholePage {
+  background-image: url("https://images.pexels.com/photos/164745/pexels-photo-164745.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+body {
+  user-select: none;
+  background-color: rgb(204, 221, 223);
+  font-family: 'Roboto', sans-serif;
+}
+
+#polySynth, #monoSynth, #drumMachine {
+  padding: 0px;
+}
+
+.card {
+  margin: 10px;
+  padding: 10px;
+}
+
+select {
+  background-color: #f3f3f3;
+  border: none;
+  opacity: 0.7;
+}
+
+select:hover {
+  opacity: 1; 
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+#effect-type, #oscillator-type {
+  width: 141px;
+}
+
+.volumeLabel {
+  width: 50px;
+  display: inline-block;
+}
+
+.probSelect {
+  width: 20px;
+  margin: 1px;
+}
+
+.editButton {
+  height: 20px;
+  width: 30px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.formInput {
+  width: 200px;
+}
+
+.centreText {
+  text-align: center;
+  padding: 30px;
+  border-radius: 25px 25px 25px 25px;
+}
+
+.homePage {
+  background-color: rgba(18, 36, 97, 0.767);
+  width: 500px;
+}
+
+.deadCentre {
+  display: flex;
+  height: 100vh;
+  color:#FFF;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+}
+
+.centeredContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+.pageContainer {
+  margin-top: 40px;
+}
+
+.techLogo {
+  width: 150px;
+  height: 150px;
+  margin: 15px;
+}
+
+.loadSaveButtons {
+  margin: 5px;
+  padding: 8px;
+  border: 0px;
+  background-color: #6C757D;
+}
+
+.synthSettings, .tableBackground {
+  background-color: #b4b4ce3f;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.editButton {
+  background-color: #6C757D;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.helpButton {
+  background-color: rgb(255, 217, 0);
+  border: rgb(189, 160, 0);
+  border-radius: 50%;
+  color: black;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+}
+
+.sequencerControl {
+  background-color: #6C757D;
+  border: none;
+  margin: 8px;
+  padding: 4px 8px;
+}
+
+.playButton, .pauseButton {
+  margin: 10px;
+}
+
+.playPause {
+  border-radius: 100%;
+}
+
+.page-link {
+  background-color: rgba(183, 206, 221, 0.192);
+}
+
+.pagination {
+  margin: 20px;
+}
+
+// ************ custom range slider ************
+
+.slidecontainer {
+  width: 100%;
+}
+
+.customSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 129px; 
+  height: 15px; 
+  background: #f3f3f3; 
+  outline: none; 
+  opacity: 0.7; 
+  -webkit-transition: .2s; 
+  transition: opacity .2s;
+  border: 1px;
+}
+
+.customSlider:hover {
+  opacity: 1; 
+}
+
+.customSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px; 
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.customSlider::-moz-range-thumb {
+  width: 15px;
+  height: 15px; 
+  background: #4CAF50; 
+  cursor: pointer;
+}
+
+// ************* Step sequencer ****************
+
+.stepBorderActive {
+  border: 2px solid #333030;
+}
+
+.stepNote {
+  display: inline-block;
+  margin: 1px;
+  border: 1px solid #95959600;
+}
+
+.drumStep {
+  height: 20px;
+  width: 20px;
+  background-color: #6d76dd;
+  
+}
+
+.drumStep:hover, .drumStep2:hover, .drumStepActive:hover {
+  background-color: #292c52c9;
+}
+
+.osc1Step:hover, .osc1Step2:hover, .osc1StepActive:hover {
+  background-color: #545f1b;
+}
+
+.polyStep:hover, .polyStep2:hover, .polyStepActive:hover {
+  background-color: #5c2b64;
+}
+
+.osc1Step {
+  height: 10px;
+  width: 20px;
+  background-color: #c5e043;
+}
+
+.polyStep {
+  height: 10px;
+  width: 20px;
+  background-color: #cd67df;
+}
+
+.drumStep2 {
+  background-color: #989cdb;
+}
+
+.osc1Step2 {
+  background-color: #dae69f;
+}
+
+.polyStep2 {
+  background-color: #dba6e6;
+}
+
+.drumStepActive {
+  background-color: #30345e;
+}
+
+.osc1StepActive {
+  background-color: #30345e;
+}
+
+.polyStepActive {
+  background-color: #30345e;
+}
+
+.stepBeat {
+  border: 2px solid #e9e9e9ee;
+}
