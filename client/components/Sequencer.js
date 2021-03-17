@@ -471,7 +471,7 @@ const Sequencer = () => {
     }
   }
 
-  // init
+  // init bpm
   Tone.Transport.bpm.value = value.currentSong.tempo
 
   let index = 0
