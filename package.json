@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode=development",
     "seed": "pipenv run python server/seed.py",
-    "build": "pipenv install; npm i; webpack -p"
+    "build": "pipenv install; npm i; webpack -p",
+    "serve:react": "webpack-dev-server",
+    "serve:flask": "pipenv run flask run"
   },
   "author": "",
   "license": "ISC",
