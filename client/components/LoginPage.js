@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Navigation from './common/Navigation'
 import { Row, Col, Card, Container } from 'react-bootstrap'
+import CustomToast from './common/CustomToast'
 
 export default function LoginPage({ history }){
 
@@ -9,6 +10,8 @@ export default function LoginPage({ history }){
     email: '',
     password: ''
   })
+  const [showError, setShowError] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
 
   function handleChange(event){
     const name = event.target.name
@@ -23,16 +26,17 @@ export default function LoginPage({ history }){
       localStorage.setItem('token', data.token)
       history.push('/music')
     } catch (err) {
-      console.log(err.response)
+      setToastMessage(err.response.data.message)
+      setShowError(!showError)
     }
   }
 
   return <>
 
-<Navigation />
+  <Navigation />
 
       <div className="wholePage">
-
+        <CustomToast message={toastMessage} show={showError} setShow={setShowError} />
         <div className="deadCentre">
           <Card className="homePage centreText">
             <h1 className="display-4">Login</h1>
@@ -64,37 +68,6 @@ export default function LoginPage({ history }){
 
       </div>
 
-
-{/* 
-  <Navigation />
-  <Container className="pageContainer">
-    <Row>
-      <Col>
-        <div className="centreText">
-          <h1>Login</h1>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              name={'email'}
-            />
-            <br />
-            <input
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              name={'password'}
-            />
-            <br />
-            <button className="btn btn-secondary btn-sm m-2">Submit</button> 
-          </form>
-        </div>
-      </Col>
-    </Row>
-  </Container> */}
   </>
 }
 

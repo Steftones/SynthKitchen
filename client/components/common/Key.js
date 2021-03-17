@@ -5,7 +5,7 @@ const Key = ({ scales, value }) => {
   return <>
     
   <span>Key: </span>
-  <select id="key-type" onChange={(event) => {
+  <select className="keySelect" onChange={(event) => {
     scales.transposeScale(event.target.value, value.currentSong.songScale)
   }}>
     <option selected value={value.currentSong.songKey}>{value.currentSong.songKey}</option>
@@ -24,7 +24,7 @@ const Key = ({ scales, value }) => {
   </select>
 
   <span> Scale: </span>
-  <select id="scale-type" onChange={(event) => {
+  <select className="keySelect" onChange={(event) => {
     scales.transposeScale(value.currentSong.songKey, event.target.value)
   }}>
     <option selected value={value.currentSong.songScale}>{value.currentSong.songScale}</option>

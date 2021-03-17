@@ -8,8 +8,19 @@
 
 body {
   user-select: none;
-  background-color: rgb(204, 221, 223);
+  background-color: #f7f5f1; // #f7f5f1
   font-family: 'Roboto', sans-serif;
+}
+
+.centerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.centerVertically {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 #polySynth, #monoSynth, #drumMachine {
@@ -22,7 +33,7 @@ body {
 }
 
 select {
-  background-color: #f3f3f3;
+  background-color: #f7f7f1;
   border: none;
   opacity: 0.7;
 }
@@ -39,6 +50,10 @@ h1, h2, h3, h4, h5 {
 
 #effect-type, #oscillator-type {
   width: 141px;
+  background-color: #9fcfd5;
+  border: 2px solid white;
+  margin-top: 1px;
+  height: 23px;
 }
 
 .volumeLabel {
@@ -47,8 +62,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .probSelect {
-  width: 20px;
+  width: 18px;
   margin: 1px;
+  border: 1px black;
 }
 
 .editButton {
@@ -73,6 +89,19 @@ h1, h2, h3, h4, h5 {
   width: 500px;
 }
 
+.customToast {
+  margin-top: 1%;
+  width: 220px;
+  left: 20%;
+  display: block;
+  position: absolute;
+  color: black;
+}
+
+.customToastHeader {
+  color: black;
+}
+
 .deadCentre {
   display: flex;
   height: 100vh;
@@ -94,6 +123,11 @@ h1, h2, h3, h4, h5 {
   margin-top: 40px;
 }
 
+.songPageContainer {
+  margin-top: 80px;
+  padding: 50px 30px 50px 30px;
+}
+
 .techLogo {
   width: 150px;
   height: 150px;
@@ -108,10 +142,13 @@ h1, h2, h3, h4, h5 {
 }
 
 .synthSettings, .tableBackground {
-  background-color: #b4b4ce3f;
+  background-color: #9fcfd5;
   margin: 10px;
   padding: 10px;
-  border-radius: 20px 20px 20px 20px;
+}
+
+.tableBackground {
+  padding: 5%;
 }
 
 .editButton {
@@ -123,11 +160,12 @@ h1, h2, h3, h4, h5 {
 
 .helpButton {
   background-color: rgb(255, 217, 0);
-  border: rgb(189, 160, 0);
+  border: rgba(68, 64, 44, 0.479) solid 1px;
   border-radius: 50%;
   color: black;
   width: 30px;
   height: 30px;
+  text-align: center;
   position: absolute;
 }
 
@@ -154,6 +192,10 @@ h1, h2, h3, h4, h5 {
   margin: 20px;
 }
 
+.drumMachine {
+  padding: 0px;
+}
+
 // ************ custom range slider ************
 
 .slidecontainer {
@@ -165,12 +207,11 @@ h1, h2, h3, h4, h5 {
   appearance: none;
   width: 129px; 
   height: 15px; 
-  background: #f3f3f3; 
+  background: #f7f7f1;
   outline: none; 
   opacity: 0.7; 
   -webkit-transition: .2s; 
   transition: opacity .2s;
-  border: 1px;
 }
 
 .customSlider:hover {
@@ -182,7 +223,7 @@ h1, h2, h3, h4, h5 {
   appearance: none;
   width: 15px;
   height: 15px; 
-  background: #4CAF50;
+  background: #539299;
   cursor: pointer;
 }
 
@@ -196,7 +237,7 @@ h1, h2, h3, h4, h5 {
 // ************* Step sequencer ****************
 
 .stepBorderActive {
-  border: 2px solid #333030;
+  border: 2px solid #252525;
 }
 
 .stepNote {
@@ -206,10 +247,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .drumStep {
-  height: 20px;
-  width: 20px;
-  background-color: #6d76dd;
-  
+  height: 18px;
+  width: 18px;
+  background-color: #70a756;
 }
 
 .drumStep:hover, .drumStep2:hover, .drumStepActive:hover {
@@ -226,38 +266,38 @@ h1, h2, h3, h4, h5 {
 
 .osc1Step {
   height: 10px;
-  width: 20px;
-  background-color: #c5e043;
+  width: 18px;
+  background-color: #c54c65;
 }
 
 .polyStep {
   height: 10px;
-  width: 20px;
-  background-color: #cd67df;
+  width: 18px;
+  background-color: #dcb51a;
 }
 
 .drumStep2 {
-  background-color: #989cdb;
+  background-color: #81b768;
 }
 
 .osc1Step2 {
-  background-color: #dae69f;
+  background-color: #e07b8f;
 }
 
 .polyStep2 {
-  background-color: #dba6e6;
+  background-color: #eeda4c;
 }
 
 .drumStepActive {
-  background-color: #30345e;
+  background-color: #000000bd;
 }
 
 .osc1StepActive {
-  background-color: #30345e;
+  background-color: #000000bd;
 }
 
 .polyStepActive {
-  background-color: #30345e;
+  background-color: #000000bd;
 }
 
 .stepBeat {

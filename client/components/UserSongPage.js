@@ -96,8 +96,8 @@ const UserSongPage = ({ history }) => {
 
   return <>
   <Navigation />
-  <Container className="pageContainer">
-    <Container className="tableBackground">
+  <Container className="songPageContainer">
+    <div className="tableBackground">
       <h1>Your Songs</h1>
       <p>Total songs: {!allData.length ? 0 : allData.length}</p>
       <Row>
@@ -131,7 +131,7 @@ const UserSongPage = ({ history }) => {
         </Col>
       </Row>
       <Pagination itemsCount={allData.length} pageSize={pageSize} handlePageChange={handlePageChange} currentPage={currentPage}/>
-    </Container>
+    </div>
   </Container>
   </> 
 }

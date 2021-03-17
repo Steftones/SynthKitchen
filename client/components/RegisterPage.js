@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Navigation from './common/Navigation'
 import { Row, Col, Container } from 'react-bootstrap'
+import CustomToast from './common/CustomToast'
 
 export default function RegisterPage({ history }){
 
@@ -10,6 +11,8 @@ export default function RegisterPage({ history }){
     email: '',
     password: ''
   })
+  const [showError, setShowError] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')  
 
   async function handleSubmit(event){
     event.preventDefault()
@@ -18,10 +21,13 @@ export default function RegisterPage({ history }){
       if (data.id){
         history.push('/login')
       } else {
-        alert('please fill in all fields')
+        setToastMessage('Please fill in all the required fields')
+        setShowError(!showError)
       }
     } catch (err) {
       console.log(err.response)
+      setToastMessage(err.response.data.message)
+      setShowError(!showError)
     }
   }
 
@@ -34,6 +40,7 @@ export default function RegisterPage({ history }){
   return <>
   <Navigation />
   <Container className="pageContainer">
+    <CustomToast message={toastMessage} show={showError} setShow={setShowError} />
     <Row>
       <Col>
         <div className="centreText">

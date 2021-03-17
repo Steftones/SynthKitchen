@@ -655,42 +655,39 @@ const Sequencer = () => {
     <Container className="pageContainer">
 
       <Row>
+        <Col/>
+        <Col><h1 style={{ fontSize: '60px', marginBottom: '100px' }}>SynthKitchen</h1></Col>
+        <Col/>
+      </Row>
 
-        <Col lg="5" style={{ maxWidth: '390px' }}>
-          <Row>
-            <Col>
-              <h1>SynthKitchen</h1>
-              <Row>
-                <Col lg="7">
-                  {displayUser}
-                  <div>Title: {value.currentSong.songName}</div>
-                </Col>
-                <Col>
-                  <Help canDisplay={helpState} display={'save'}/>
-                  <SaveModal value={value} handleSave={handleSave} handleEdit={handleEdit} canEdit={canEdit}/>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
+      <Row>
+
+        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
+          <Button className="sequencerControl playPause" onClick={() => startStop()}>{isPlaying ? <i className="fa fa-3x fa-pause pauseButton" aria-hidden="true"></i> : <i className="fa fa-3x fa-play playButton" aria-hidden="true"></i>}</Button>
+          <Help canDisplay={helpState} display={'mute'}/>
+          <Button className="sequencerControl" onClick={() => setPreviewMode(!previewMode)}>{previewMode ? 'Mute Selection' : 'Selection Muted'}</Button>
+          <Button className='sequencerControl' onClick={() => setHelpState(!helpState)}>Help</Button>
         </Col>
 
-        <Col>
+        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
+          <h4>Global Settings</h4>
+          <Key scales={scales} value={value}/><br/>
+          <Help canDisplay={helpState} display={'global'}/>
+          Octave: {value.currentSong.octave} <Button className="sequencerControl" onClick={() => scales.changeOctave(-1)}>-</Button>
+          <Button className="sequencerControl" onClick={() => scales.changeOctave(1)}>+</Button>
+          <TempoComponent value={value} setValue={setValue}/>
+        </Col>
+
+        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
+          <br/>
           <Row>
-            <Col>
-              <h4>Global Settings</h4>
-              <Key scales={scales} value={value}/><br/>
-              <Help canDisplay={helpState} display={'global'}/>
-              Octave: {value.currentSong.octave} <Button className="sequencerControl" onClick={() => scales.changeOctave(-1)}>-</Button>
-              <Button className="sequencerControl" onClick={() => scales.changeOctave(1)}>+</Button>
-              <TempoComponent value={value} setValue={setValue}/>
+            <Col lg="6">
+              {displayUser}
+              <div>Title: {value.currentSong.songName}</div>
             </Col>
-            <Col>
-              <br/>
-              <Button className="sequencerControl playPause" onClick={() => startStop()}>{isPlaying ? <i className="fa fa-3x fa-pause pauseButton" aria-hidden="true"></i> : <i className="fa fa-3x fa-play playButton" aria-hidden="true"></i>}</Button>
-              <Help canDisplay={helpState} display={'mute'}/>
-              <Button className="sequencerControl" onClick={() => setPreviewMode(!previewMode)}>{previewMode ? 'Mute Selection' : 'Selection Muted'}</Button>
-              <Button className='sequencerControl' onClick={() => setHelpState(!helpState)}>Help</Button>
-              <br/>
+            <Col >
+              <Help canDisplay={helpState} display={'save'}/>
+              <SaveModal value={value} handleSave={handleSave} handleEdit={handleEdit} canEdit={canEdit}/>
             </Col>
           </Row>
         </Col>
@@ -698,7 +695,8 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col lg="5" style={{ maxWidth: '390px' }}>
+
+        <Col style={{  border: '2px solid black', margin: '10px' }}>
           <div id="drumMachine">
             <Help canDisplay={helpState} display={'drumSequencer'}/>
             <br/>
@@ -746,7 +744,7 @@ const Sequencer = () => {
           </div>
         </Col>
 
-        <Col>
+        <Col lg='8' >
           <Container className="synthSettings">
             <Row>
               <Col lg='2'></Col>
@@ -804,10 +802,9 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col lg="5" style={{ maxWidth: '390px' }}>
+        <Col style={{ border: '2px solid black', margin: '10px' }}>
           <div id="monoSynth">
             <Help canDisplay={helpState} display={'monoSequencer'}/>
-            <br/>
             {value.currentSong.grid.map((line, index) => {
               let count = -1
               let secondBeat = true
@@ -834,7 +831,7 @@ const Sequencer = () => {
           </div>
         </Col>
 
-        <Col>
+        <Col lg="8">
           <Container className="synthSettings">
             <Row>
               <Col lg='2'></Col>
@@ -868,10 +865,9 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col lg="5" style={{ maxWidth: '390px' }}>
+        <Col style={{ border: '2px solid black', margin: '10px' }}>
           <div id="polySynth">
             <Help canDisplay={helpState} display={'polySequencer'}/>
-            <br/>
             {value.currentSong.polyGrid.map((line, index) => {
               let count = -1
               let secondBeat = true
@@ -897,7 +893,7 @@ const Sequencer = () => {
           </div>
         </Col>
 
-        <Col>
+        <Col lg="8">
           <Container className="synthSettings">
             <Row>
               <Col lg='2'></Col>
@@ -924,6 +920,10 @@ const Sequencer = () => {
           </Container>
         </Col>
 
+      </Row>
+
+      <Row>
+        <Col style={{ height: '60px'}}></Col>
       </Row>
 
     </Container>
