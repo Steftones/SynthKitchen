@@ -4,8 +4,8 @@ import { Button } from 'react-bootstrap'
 const TempoComponent = ({ value, setValue }) => {
 
   const changeTempo = (val) => {
-    if (value.currentSong.tempo < 60 && val < 0) return
-    if (value.currentSong.tempo > 240 && val > 0) return
+    if (value.currentSong.tempo < 40 && val < 0) return
+    if (value.currentSong.tempo > 290 && val > 0) return
     const copy = { ...value }
     copy.currentSong.tempo += val
     setValue(copy)

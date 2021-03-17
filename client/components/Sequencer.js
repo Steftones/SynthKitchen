@@ -164,6 +164,9 @@ class Instrument {
       case 'Delay':
         this.effect = new Tone.FeedbackDelay("8n", 0.5).toDestination()
         break
+      case 'Ambient':
+        this.effect = new Tone.Reverb(30).toDestination()
+        break
       case 'Phaser':
         this.effect = new Tone.Phaser({
           frequency: 15,
@@ -352,6 +355,7 @@ const Sequencer = () => {
   const [snareOpen, setSnareOpen] = useState(false) 
   const [percOpen, setPercOpen] = useState(false)
   const [hatOpen, setHatOpen] = useState(false) 
+  
 
   if (!getLoggedInUserId()){
     return <>

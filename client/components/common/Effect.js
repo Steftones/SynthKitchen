@@ -12,6 +12,7 @@ const Effect = ({ toChange, handleEffectChange, changing }) => {
           <option value="Chorus">Chorus</option>
           <option value="Distortion">Distortion</option>
           <option value="Delay">Delay</option>
+          <option value="Ambient">Ambient</option>
           <option value="Phaser">Phaser</option>
         </select>
       </div>

@@ -26,10 +26,15 @@ const UserSongPage = ({ history }) => {
     </>
   }
 
+  let checkSongs = false
+
   async function fetchData(){
     const { data } = await axios.get(`/api/users/${loggedInUser}`)
     setAllData(data.songs)
+    checkSongs = true
   }
+
+  
 
   async function loadUserSong(songId){
     const { data } = await axios.get(`/api/songs/${songId}`)
@@ -79,7 +84,7 @@ const UserSongPage = ({ history }) => {
       : <i className="fa fa-caret-down" />
   }
 
-  if (allData.length < 1) return <>
+  if (checkSongs && allData.length === 0) return <>
     <Navigation />
       <Container className="pageContainer">
         <h1>Your Songs</h1>
@@ -92,7 +97,6 @@ const UserSongPage = ({ history }) => {
   const sorted = _.orderBy(allData, [sortColumn.path], [sortColumn.order])
 
   const paginatedSongs = paginate(sorted, currentPage, pageSize)
-
 
   return <>
   <Navigation />
@@ -107,6 +111,7 @@ const UserSongPage = ({ history }) => {
               <tr>
                 <th onClick={() => onSort('content.songName')}>Title {renderSortIcon('content.songName')}</th>
                 <th onClick={() => onSort('content.genre')}>Genre {renderSortIcon('content.genre')}</th>
+                <th onClick={() => onSort('created_at')}>Created At {renderSortIcon('created_at')}</th>
                 <th onClick={() => onSort('content.tempo')}>BPM {renderSortIcon('content.tempo')}</th>
                 <th onClick={() => onSort('content.songKey')}>Key {renderSortIcon('content.songKey')}</th>
                 <th></th>
@@ -117,11 +122,12 @@ const UserSongPage = ({ history }) => {
             {paginatedSongs.map((song, index) => (
               <thead key={index}>
                 <tr>
+                  {console.log(song)}
                   <th>{song.content.songName}</th>
                   <th>{song.content.genre}</th>
+                  <th>{song.created_at.substring(0,10)}</th>
                   <th>{song.content.tempo}</th>
                   <th>{song.content.songKey}</th>
-                  <th>{song.content.likes}</th>
                   <th><button className="btn btn-warning btn-sm" onClick={() => loadUserSong(song.id)}>Load</button></th>
                   <th><button className="btn btn-danger btn-sm" onClick={() => handleSongDelete(loggedInUser, song.id)}>Delete</button></th>
                 </tr>

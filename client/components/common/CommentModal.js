@@ -43,7 +43,7 @@ const CommentModal = ({ song, value, handleSaveComment, handleDeleteComment }) =
                 <p>
                   <i>&quot;{e.content}&quot;</i><br/>
                   <small>User: {e.user.username}</small><br/>
-                  <small>Created at: {e.created_at}</small><br/>
+                  <small>Created at: {e.created_at.substring(0,10)}</small><br/>
                   {getLoggedInUserId() === e.user.id && <Button onClick={() => handleDeleteComment(song.id, e.id)}>Delete</Button>}
                 </p>
                 </>

@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5 {
   font-family: 'Roboto', sans-serif;
 }
 
-#effect-type, #oscillator-type {
+#effect-type, #oscillator-type, #synth-type {
   width: 141px;
   background-color: #9fcfd5;
   border: 2px solid white;
@@ -149,6 +149,7 @@ h1, h2, h3, h4, h5 {
 
 .tableBackground {
   padding: 5%;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .editButton {

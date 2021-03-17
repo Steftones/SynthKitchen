@@ -122,6 +122,7 @@ const SongPage = ({ history }) => {
                   <th onClick={() => onSort('content.songName')}>Title {renderSortIcon('content.songName')}</th>
                   <th onClick={() => onSort('user.username')}>User {renderSortIcon('user.username')}</th>
                   <th onClick={() => onSort('content.genre')}>Genre {renderSortIcon('content.genre')}</th>
+                  <th onClick={() => onSort('created_at')}>Created At {renderSortIcon('created_at')}</th>
                   <th onClick={() => onSort('content.tempo')}>BPM {renderSortIcon('content.tempo')}</th>
                   <th onClick={() => onSort('content.songKey')}>Key {renderSortIcon('content.songKey')}</th>
                   <th></th>
@@ -135,6 +136,7 @@ const SongPage = ({ history }) => {
                     <th>{song.content.songName} {song.user.id === getLoggedInUserId() && <button className="btn btn-danger btn-sm" onClick={() => handleSongDelete(loggedInUser, song.id)}>Delete</button>}</th>
                     <th>{song.user.username}</th>
                     <th>{song.content.genre}</th>
+                    <th>{song.created_at.substring(0,10)}</th>
                     <th>{song.content.tempo}</th>
                     <th>{song.content.songKey}</th>
                     <th><button className="btn btn-warning btn-sm" onClick={() => loadSong(song.id)}>Load</button></th>
