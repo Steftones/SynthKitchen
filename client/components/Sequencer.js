@@ -162,7 +162,7 @@ class Instrument {
         this.effect = new Tone.Distortion(0.8).toDestination()
         break
       case 'Delay':
-        this.effect = new Tone.FeedbackDelay("8n", 0.5).toDestination()
+        this.effect = new Tone.FeedbackDelay('8n', 0.5).toDestination()
         break
       case 'Ambient':
         this.effect = new Tone.Reverb(30).toDestination()
@@ -315,17 +315,17 @@ class PolyInstrument extends Instrument {
   }
 }
 
-let osc1 = new MonoInstrument()
-let osc2 = new PolyInstrument()
+const osc1 = new MonoInstrument()
+const osc2 = new PolyInstrument()
 
-let oscKick = new MonoInstrument()
+const oscKick = new MonoInstrument()
 oscKick.updateSynthType('MembraneSynth')
 oscKick.updateEnvelope('attack', 0.001)
 oscKick.updateEnvelope('decay', 0.5)
 oscKick.updateEnvelope('sustain',0)
 oscKick.updateEnvelope('release', 0.3)
 
-let oscSnare = new MonoInstrument()
+const oscSnare = new MonoInstrument()
 oscSnare.updateSynthType('NoiseSynth')
 oscSnare.addFilter()
 oscSnare.updateEnvelope('attack', 0.001)
@@ -333,7 +333,7 @@ oscSnare.updateEnvelope('decay', 0.2)
 oscSnare.updateEnvelope('sustain',0.008)
 oscSnare.updateEnvelope('release', 0.03)
 
-let oscHat = new MonoInstrument()
+const oscHat = new MonoInstrument()
 oscHat.updateSynthType('NoiseSynth')
 oscHat.addFilter()
 oscHat.updateEnvelope('attack', 0)
@@ -341,7 +341,7 @@ oscHat.updateEnvelope('decay', 0.05)
 oscHat.updateEnvelope('sustain',0.0005)
 oscHat.updateEnvelope('release', 0.007)
 
-let oscPerc = new MonoInstrument() 
+const oscPerc = new MonoInstrument() 
 oscPerc.updateSynthType('MetalSynth') 
 
 const Sequencer = () => {
@@ -659,21 +659,31 @@ const Sequencer = () => {
     <Container className="pageContainer">
 
       <Row>
+
         <Col/>
-        <Col><h1 style={{ fontSize: '60px', marginBottom: '100px' }}>SynthKitchen</h1></Col>
+        <Col><h1 className="sequencerTitle">SynthKitchen</h1></Col>
         <Col/>
+
       </Row>
 
       <Row>
 
-        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
-          <Button className="sequencerControl playPause" onClick={() => startStop()}>{isPlaying ? <i className="fa fa-3x fa-pause pauseButton" aria-hidden="true"></i> : <i className="fa fa-3x fa-play playButton" aria-hidden="true"></i>}</Button>
+        <Col className="sequencerContainer">
+          <Button
+            className="sequencerControl playPause"
+            onClick={() => startStop()}>
+            {isPlaying ? <i className="fa fa-3x fa-pause pauseButton" aria-hidden="true"></i> : <i className="fa fa-3x fa-play playButton" aria-hidden="true"></i>}
+          </Button>
           <Help canDisplay={helpState} display={'mute'}/>
-          <Button className="sequencerControl" onClick={() => setPreviewMode(!previewMode)}>{previewMode ? 'Mute Selection' : 'Selection Muted'}</Button>
+          <Button
+            className="sequencerControl"
+            onClick={() => setPreviewMode(!previewMode)}>
+            {previewMode ? 'Mute Selection' : 'Selection Muted'}
+          </Button>
           <Button className='sequencerControl' onClick={() => setHelpState(!helpState)}>Help</Button>
         </Col>
 
-        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
+        <Col className="sequencerContainer">
           <h4>Global Settings</h4>
           <Key scales={scales} value={value}/><br/>
           <Help canDisplay={helpState} display={'global'}/>
@@ -682,7 +692,7 @@ const Sequencer = () => {
           <TempoComponent value={value} setValue={setValue}/>
         </Col>
 
-        <Col style={{ border: '2px solid black', margin: '10px', padding: '12px' }}>
+        <Col className="sequencerContainer">
           <br/>
           <Row>
             <Col lg="6">
@@ -700,7 +710,7 @@ const Sequencer = () => {
 
       <Row>
 
-        <Col style={{  border: '2px solid black', margin: '10px' }}>
+        <Col className="stepSequencer">
           <div id="drumMachine">
             <Help canDisplay={helpState} display={'drumSequencer'}/>
             <br/>
@@ -768,7 +778,11 @@ const Sequencer = () => {
               <Col lg='3'><Effect toChange={oscKick} handleEffectChange={handleEffectChange} changing={'kickEffect'}/></Col>
               <Col>
                 <Help canDisplay={helpState} display={'probability'}/>
-                <Button className="editButton" size="sm" onClick={() => setKickOpen(!kickOpen)} aria-controls="example-collapse-text" aria-expanded={kickOpen}>%</Button>
+                <Button
+                  className={`editButton ${kickOpen ? 'active' : ''}`}
+                  size="sm" onClick={() => setKickOpen(!kickOpen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={kickOpen}>%</Button>
               </Col>
             </Row>
             <Row>
@@ -779,7 +793,12 @@ const Sequencer = () => {
               <Col lg='3'>
                 <Effect toChange={oscSnare} handleEffectChange={handleEffectChange} changing={'snareEffect'}/></Col>
               <Col>
-                <Button className="editButton" size="sm" onClick={() => setSnareOpen(!snareOpen)} aria-controls="example-collapse-text" aria-expanded={kickOpen}>%</Button>
+                <Button
+                  className={`editButton ${snareOpen ? 'active' : ''}`}
+                  size="sm"
+                  onClick={() => setSnareOpen(!snareOpen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={kickOpen}>%</Button>
               </Col>
             </Row>
             <Row>
@@ -788,7 +807,12 @@ const Sequencer = () => {
               <Col lg='3'>
                 <Effect toChange={oscHat} handleEffectChange={handleEffectChange} changing={'hatEffect'}/></Col>
               <Col>
-                <Button className="editButton" size="sm" onClick={() => setHatOpen(!hatOpen)} aria-controls="example-collapse-text" aria-expanded={kickOpen}>%</Button>
+                <Button
+                  className={`editButton ${hatOpen ? 'active' : ''}`}
+                  size="sm"
+                  onClick={() => setHatOpen(!hatOpen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={kickOpen}>%</Button>
               </Col>
             </Row>
             <Row>
@@ -796,7 +820,12 @@ const Sequencer = () => {
               <Col><div className="volumeLabel">Perc:</div><Volume toChange={oscPerc}/></Col>
               <Col lg='3'><Effect toChange={oscPerc} handleEffectChange={handleEffectChange} changing={'percEffect'}/></Col>
               <Col>
-                <Button className="editButton" size="sm" onClick={() => setPercOpen(!percOpen)} aria-controls="example-collapse-text" aria-expanded={kickOpen}>%</Button>
+                <Button
+                  className={`editButton ${percOpen ? 'active' : ''}`}
+                  size="sm"
+                  onClick={() => setPercOpen(!percOpen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={kickOpen}>%</Button>
               </Col>
             </Row> 
             
@@ -806,7 +835,7 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col style={{ border: '2px solid black', margin: '10px' }}>
+        <Col className="stepSequencer">
           <div id="monoSynth">
             <Help canDisplay={helpState} display={'monoSequencer'}/>
             {value.currentSong.grid.map((line, index) => {
@@ -869,7 +898,8 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col style={{ border: '2px solid black', margin: '10px' }}>
+        
+        <Col className="stepSequencer">
           <div id="polySynth">
             <Help canDisplay={helpState} display={'polySequencer'}/>
             {value.currentSong.polyGrid.map((line, index) => {
@@ -927,7 +957,7 @@ const Sequencer = () => {
       </Row>
 
       <Row>
-        <Col style={{ height: '60px'}}></Col>
+        <Col className="sequencerBottom"></Col>
       </Row>
 
     </Container>

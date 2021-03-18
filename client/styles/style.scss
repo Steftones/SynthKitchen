@@ -170,11 +170,31 @@ h1, h2, h3, h4, h5 {
   position: absolute;
 }
 
+.sequencerTitle {
+  font-size: 60px;
+  margin-bottom: 100px;
+}
+
+.sequencerContainer {
+  border: 2px solid black;
+  margin: 10px;
+  padding: 12px;
+}
+
+.stepSequencer {
+  border: 2px solid black;
+  margin: 10px;
+}
+
 .sequencerControl {
   background-color: #6C757D;
   border: none;
   margin: 8px;
   padding: 4px 8px;
+}
+
+.sequencerBottom {
+  height: 60px;
 }
 
 .playButton, .pauseButton {
