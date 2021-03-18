@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import Navigation from './common/Navigation'
-import { Row, Col, Container } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import CustomToast from './common/CustomToast'
 
 export default function RegisterPage({ history }){
@@ -39,47 +39,47 @@ export default function RegisterPage({ history }){
 
   return <>
   <Navigation />
-  <Container className="pageContainer">
+  <div className="wholePage">
     <CustomToast message={toastMessage} show={showError} setShow={setShowError} />
-    <Row>
-      <Col>
-        <div className="centreText">
-          <h1 className="m-2">Register</h1>
-          <form onSubmit={handleSubmit}>
-            <input
-              className="formInput"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Username (15 chars max)"
-              name={'username'}
-              maxLength="15"
-            />
-            <br />
-            <input
-              className="formInput"
-              type="text"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              name={'email'}
-            />
-            <br />
-            <input
-              className="formInput"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              name={'password'}
-            />
-            <br />
-            <button className="btn btn-secondary btn-sm m-2">Submit</button> 
-          </form>
-        </div>
-      </Col>
-    </Row>
-  </Container>
+    <div className="deadCentre">
+      <Card className="homePage centreText">
+        <h1 className="display-4">Register</h1>
+        <p className="lead">Fill in your details to get started</p>
+        <form onSubmit={handleSubmit}>
+          <input
+            className="formInput"
+            type="text"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Username (15 chars max)"
+            name={'username'}
+            maxLength="15"
+          />
+          <br />
+          <input
+            className="formInput"
+            type="text"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            name={'email'}
+          />
+          <br />
+          <input
+            className="formInput"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            name={'password'}
+          />
+          <br />
+          <button className="btn btn-secondary btn-sm m-2">Submit</button> 
+        </form>
+      </Card>
+    </div>
+
+  </div>
   </>
 }
 

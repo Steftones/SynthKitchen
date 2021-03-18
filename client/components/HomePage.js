@@ -13,7 +13,7 @@ const HomePage = () => {
         <div className="deadCentre">
           <Card className="homePage centreText">
             <h1 className="display-4">SynthKitchen</h1>
-            <p className="lead">A brower-based synthesizer and sequencer</p>
+            <p className="lead">A browser-based synthesizer and sequencer</p>
             <p className="lead">
               <NavLink className="navbar-item" to="/login">
                 <button className="btn btn-primary btn-lg m-2">Login</button>
