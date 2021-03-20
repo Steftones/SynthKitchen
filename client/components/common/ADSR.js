@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react' 
+import React, { useState } from 'react' 
 import { Row, Col } from 'react-bootstrap'
 
-const ADSR = ({ toChange, value, change }) => {
+const ADSR = ({ toChange, settings }) => {
 
-  const [attackState, setAttackState] = useState(undefined)
-  const [decayState, setDecayState] = useState(undefined)
-  const [sustainState, setSustainState] = useState(undefined)
-  const [releaseState, setReleaseState] = useState(undefined)
-
-  useEffect(() => {
-    if (change === 'osc1'){
-      setAttackState(value.currentSong.osc1Settings.envelope.attack)
-      setDecayState(value.currentSong.osc1Settings.envelope.decay)
-      setSustainState(value.currentSong.osc1Settings.envelope.sustain)
-      setReleaseState(value.currentSong.osc1Settings.envelope.release)
-    } else {
-      setAttackState(value.currentSong.osc2Settings.envelope.attack)
-      setDecayState(value.currentSong.osc2Settings.envelope.decay)
-      setSustainState(value.currentSong.osc2Settings.envelope.sustain)
-      setReleaseState(value.currentSong.osc2Settings.envelope.release)
-    }
-  },[])
+  const [attackState, setAttackState] = useState(settings.envelope.attack)
+  const [decayState, setDecayState] = useState(settings.envelope.decay)
+  const [sustainState, setSustainState] = useState(settings.envelope.sustain)
+  const [releaseState, setReleaseState] = useState(settings.envelope.release)
 
   return <>
   <Row>

@@ -648,8 +648,6 @@ const Sequencer = () => {
       : copy.currentSong.osc2Settings.oscType = event
     setValue(copy)
   }
-
-  console.log(value)
   
   let displayUser
 
@@ -896,7 +894,7 @@ const Sequencer = () => {
                 <h5>MonoSynth</h5>
               </Col>
               <Col>
-                <ADSR toChange={osc1} value={value} change="osc1"/>
+                <ADSR toChange={osc1} settings={value.currentSong.osc1Settings}/>
                 <br/>
                   Volume:
                 <br/>
@@ -957,7 +955,7 @@ const Sequencer = () => {
             <Row>
               <Col lg='2'><h5>PolySynth</h5></Col>
               <Col>
-                <ADSR toChange={osc2} value={value} change="osc1"/>
+                <ADSR toChange={osc2} settings={value.currentSong.osc2Settings}/>
                 <br/>
                   Volume:
                 <br/>
