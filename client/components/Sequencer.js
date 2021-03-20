@@ -630,6 +630,26 @@ const Sequencer = () => {
     copy.currentSong[changing] = change
     setValue(copy)
   }
+
+  function handleSynthChange(event, toChange){
+    toChange.updateSynthType(event)
+    const copy = { ...value }
+    toChange === osc1
+      ? copy.currentSong.osc1Settings.synthType = event
+      : copy.currentSong.osc2Settings.synthType = event
+    setValue(copy)
+  }
+
+  function handleOscillatorChange(event, toChange){
+    toChange.updateOscillatorType(event)
+    const copy = { ...value }
+    toChange === osc1
+      ? copy.currentSong.osc1Settings.oscType = event
+      : copy.currentSong.osc2Settings.oscType = event
+    setValue(copy)
+  }
+
+  console.log(value)
   
   let displayUser
 
@@ -775,7 +795,7 @@ const Sequencer = () => {
             <Row>
               <Col lg='2'><h5>DrumSynth</h5></Col>
               <Col><div className="volumeLabel">Kick:</div><Volume toChange={oscKick}/></Col>
-              <Col lg='3'><Effect toChange={oscKick} handleEffectChange={handleEffectChange} changing={'kickEffect'}/></Col>
+              <Col lg='3'><Effect toChange={oscKick} handleEffectChange={handleEffectChange} changing={'kickEffect'} startValue={value.currentSong.kickEffect}/></Col>
               <Col>
                 <Help canDisplay={helpState} display={'probability'}/>
                 <Button
@@ -791,7 +811,7 @@ const Sequencer = () => {
                 <div className="volumeLabel">Snare:</div><Volume toChange={oscSnare}/>
               </Col>
               <Col lg='3'>
-                <Effect toChange={oscSnare} handleEffectChange={handleEffectChange} changing={'snareEffect'}/></Col>
+                <Effect toChange={oscSnare} handleEffectChange={handleEffectChange} changing={'snareEffect'} startValue={value.currentSong.snareEffect}/></Col>
               <Col>
                 <Button
                   className={`editButton ${snareOpen ? 'active' : ''}`}
@@ -805,7 +825,7 @@ const Sequencer = () => {
               <Col lg='2'></Col>
               <Col><div className="volumeLabel">Hat:</div><Volume toChange={oscHat}/></Col>
               <Col lg='3'>
-                <Effect toChange={oscHat} handleEffectChange={handleEffectChange} changing={'hatEffect'}/></Col>
+                <Effect toChange={oscHat} handleEffectChange={handleEffectChange} changing={'hatEffect'} startValue={value.currentSong.hatEffect}/></Col>
               <Col>
                 <Button
                   className={`editButton ${hatOpen ? 'active' : ''}`}
@@ -818,7 +838,7 @@ const Sequencer = () => {
             <Row>
               <Col lg='2'></Col>
               <Col><div className="volumeLabel">Perc:</div><Volume toChange={oscPerc}/></Col>
-              <Col lg='3'><Effect toChange={oscPerc} handleEffectChange={handleEffectChange} changing={'percEffect'}/></Col>
+              <Col lg='3'><Effect toChange={oscPerc} handleEffectChange={handleEffectChange} changing={'percEffect'} startValue={value.currentSong.percEffect}/></Col>
               <Col>
                 <Button
                   className={`editButton ${percOpen ? 'active' : ''}`}
@@ -883,11 +903,11 @@ const Sequencer = () => {
                 <Volume toChange={osc1}/>
               </Col>
               <Col>
-                <OscType toChange={osc1} value={value} change="osc1"/>
+                <OscType toChange={osc1} startValue={value.currentSong.osc1Settings} handleSynthChange={handleSynthChange} handleOscillatorChange={handleOscillatorChange}/>
                 <br/>
                 Effect
                 <br/>
-                <Effect toChange={osc1} handleEffectChange={handleEffectChange} changing={'osc1Effect'}/>
+                <Effect toChange={osc1} handleEffectChange={handleEffectChange} changing={'osc1Effect'} startValue={value.currentSong.osc1Effect}/>
                 
               </Col>
             </Row> 
@@ -944,11 +964,11 @@ const Sequencer = () => {
                 <Volume toChange={osc2}/>
               </Col>
               <Col>
-                <OscType toChange={osc2} value={value} change="osc2"/>
+                <OscType toChange={osc2} startValue={value.currentSong.osc2Settings} handleSynthChange={handleSynthChange} handleOscillatorChange={handleOscillatorChange}/>
                 <br/>
                 Effect
                 <br/>
-                <Effect toChange={osc2} handleEffectChange={handleEffectChange} changing={'osc2Effect'}/>
+                <Effect toChange={osc2} handleEffectChange={handleEffectChange} changing={'osc2Effect'} startValue={value.currentSong.osc2Effect}/>
               </Col>
             </Row> 
           </Container>

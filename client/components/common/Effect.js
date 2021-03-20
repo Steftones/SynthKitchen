@@ -1,11 +1,13 @@
 import React from 'react' 
 
-const Effect = ({ toChange, handleEffectChange, changing }) => {
+const Effect = ({ toChange, handleEffectChange, changing, startValue }) => {
 
   return <>
     <div className="field">
       <div className="control">
-        <select id="effect-type" onChange={(event) => handleEffectChange(event, toChange, changing)}>
+        <select id="effect-type"
+          onChange={(event) => handleEffectChange(event, toChange, changing)}
+          value={startValue}>
           <option value="None">None</option>
           <option value="Reverb">Reverb</option>
           <option value="Bitcrusher">Bitcrusher</option>
