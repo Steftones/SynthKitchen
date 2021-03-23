@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap'
 import { getLoggedInUserId } from '../../lib/auth'
 import axios from 'axios'
 import _ from 'lodash'
-import Pagination from './pagination.js'
+import Pagination from './Pagination'
 import { paginate } from './paginate'
 
 const LoadModal = ({ handleLoad, value, setValue, history }) => {

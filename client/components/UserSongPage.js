@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import Pagination from './common/Pagination.js'
+import Pagination from './common/Pagination'
 import { paginate } from '../lib/paginate'
 import _ from 'lodash'
 import { getLoggedInUserId } from '../lib/auth'
