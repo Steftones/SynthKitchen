@@ -9,7 +9,7 @@ const UpDown = (props) => {
     arrowUp ? setClicked(true) : setClicked(false)
   },[])
 
-  async function click(){
+  const click = async () => {
     await sortData(sortType)
     clicked ? setClicked(false) : setClicked(true)
   }

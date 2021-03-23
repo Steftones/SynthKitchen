@@ -21,5 +21,3 @@ const Pagination = ({ itemsCount, pageSize, handlePageChange, currentPage }) => 
 }
  
 export default Pagination
-
-// use proptypes for error handling perhaps? You can npm import PropTypes from 'prop-types'

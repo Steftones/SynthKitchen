@@ -18,12 +18,12 @@ const LoadModal = ({ handleLoad, value, setValue, history }) => {
   const [sortColumn, setSortColumn] = useState({ path: 'content.songName', order: 'asc' })
   const [loggedInUser, setLoggedInUser] = useState(getLoggedInUserId())
 
-  async function fetchData(){
+  const fetchData = async () => {
     const { data } = await axios.get(`/api/users/${loggedInUser}`)
     setAllData(data.songs)
   }
 
-  async function loadUserSong(songId){
+  const loadUserSong = async (songId) => {
     const { data } = await axios.get(`/api/songs/${songId}`)
     const copy = { ...value }
     copy.currentSong = data.content
@@ -84,7 +84,6 @@ const LoadModal = ({ handleLoad, value, setValue, history }) => {
           </Modal.Header>
           <Modal.Body>
             <p>You have {!allData.length ? 0 : allData.length} songs.</p>
-            {/* <form> */}
             <div className="row">
               <div className="col">
                 <table className="table">
@@ -115,7 +114,6 @@ const LoadModal = ({ handleLoad, value, setValue, history }) => {
                 <Pagination itemsCount={allData.length} pageSize={pageSize} handlePageChange={handlePageChange} currentPage={currentPage}/>
               </div>
             </div>
-            {/* </form> */}
             <button className="btn btn-secondary btn-sm m-2" onClick={() => {
               handleLoad()
               handleClose()

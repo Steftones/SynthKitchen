@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { getLoggedInUserId } from '../../lib/auth'
 
-const CommentModal = ({ song, value, handleSaveComment, handleDeleteComment }) => {
+const CommentModal = ({ song, handleSaveComment, handleDeleteComment }) => {
   const [show, setShow] = useState(false)
 
   const [formData, updateFormData] = useState({
@@ -14,7 +14,7 @@ const CommentModal = ({ song, value, handleSaveComment, handleDeleteComment }) =
     handleClose()
   }}>Save</button>
 
-  function handleChange(event){
+  const handleChange = (event) => {
     const name = event.target.name
     const input = event.target.value
     updateFormData({ ...formData, [name]: input })

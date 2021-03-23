@@ -13,7 +13,7 @@ import { UserContext } from './UserContext'
 
 import './styles/style.scss'
 
-function App() {
+const App = () => {
   
   const [value, setValue] = useState({ 
     currentSong: {
@@ -25,28 +25,35 @@ function App() {
       octave: 4,
       notes: ['A4', 'G#4', 'F#4', 'E4', 'D4', 'C#4', 'B3', 'A3'],
       drums: [
-        [{ playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 },
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }], // kick
-        [{ playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 },
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }], // snare
-        [{ playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 },
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }], // hat
-        [{ playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 },
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, 
-          { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }, { playNote: '-', edit: 0, probability: 1 }]  // perc
+        [{ playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' },
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }], // kick
+        [{ playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' },
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }], // snare
+        [{ playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' },
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }], // hat
+        [{ playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' },
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+          { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }]  // perc
       ],
       kickEffect: 'None',
+      kickVolume: 1,
       snareEffect: 'None',
+      snareVolume: 1,
       hatEffect: 'None',
+      hatVolume: 1,
       percEffect: 'None', 
-      osc1: ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      percVolume: 1,
+      osc1: [{ playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' },
+        { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+        { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, 
+        { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }, { playNote: '-', probability: 1, condition: '1:1' }],
       osc1Settings: {
         synthType: 'FMSynth',
         oscType: 'sine',
@@ -59,6 +66,20 @@ function App() {
         volume: 0 
       },
       osc1Effect: 'None', 
+      grid: [
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
+      ],
+      osc2: [{ playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' },
+        { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' },
+        { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' },
+        { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }, { playNote: [], probability: 1 , condition: '1:1' }],
       osc2Settings: {
         synthType: 'Synth',
         oscType: 'square',
@@ -71,20 +92,6 @@ function App() {
         volume: 0 
       },
       osc2Effect: 'None', 
-      grid: [
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-        ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
-      ],
-      polySynth: [{ playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 },
-        { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 },
-        { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 },
-        { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }, { playNote: [], edit: 0, probability: 1 }],
       polyGrid: [
         ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
         ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
@@ -95,9 +102,7 @@ function App() {
         ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
         ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
       ],
-      user: null,
-      comments: [],
-      likes: []
+      user: null
     },
     songUser: { id: null },
     songId: null

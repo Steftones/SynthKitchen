@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import Pagination from './common/pagination.js'
-import { paginate } from './common/paginate'
+import Pagination from './common/Pagination.js'
+import { paginate } from '../lib/paginate'
 import _ from 'lodash'
 import { getLoggedInUserId } from '../lib/auth'
 import { UserContext } from '../UserContext'
@@ -28,15 +28,13 @@ const UserSongPage = ({ history }) => {
 
   let checkSongs = false
 
-  async function fetchData(){
+  const fetchData = async () => {
     const { data } = await axios.get(`/api/users/${loggedInUser}`)
     setAllData(data.songs)
     checkSongs = true
   }
 
-  
-
-  async function loadUserSong(songId){
+  const loadSong = async (songId) => {
     const { data } = await axios.get(`/api/songs/${songId}`)
     const copy = { ...value }
     copy.currentSong = data.content
@@ -46,10 +44,10 @@ const UserSongPage = ({ history }) => {
     history.push('/music')
   }
 
-  async function handleSongDelete(userId, songId){
+  const handleSongDelete = async (userId, songId) => {
     try {
       const token = localStorage.token
-      await axios.delete(`/api/users/${userId}/songs/${songId}`, { headers: { 'Authorization' : `Bearer ${token}` } })
+      await axios.delete(`/api/users/${userId}/songs/${songId}`, { headers: { 'Authorization': `Bearer ${token}` } })
       fetchData()
     } catch (err) {
       console.log(err.response)
@@ -95,7 +93,6 @@ const UserSongPage = ({ history }) => {
   </>
 
   const sorted = _.orderBy(allData, [sortColumn.path], [sortColumn.order])
-
   const paginatedSongs = paginate(sorted, currentPage, pageSize)
 
   return <>
@@ -122,13 +119,12 @@ const UserSongPage = ({ history }) => {
             {paginatedSongs.map((song, index) => (
               <thead key={index}>
                 <tr>
-                  {console.log(song)}
                   <th>{song.content.songName}</th>
                   <th>{song.content.genre}</th>
                   <th>{song.created_at.substring(0,10)}</th>
                   <th>{song.content.tempo}</th>
                   <th>{song.content.songKey}</th>
-                  <th><button className="btn btn-warning btn-sm" onClick={() => loadUserSong(song.id)}>Load</button></th>
+                  <th><button className="btn btn-warning btn-sm" onClick={() => loadSong(song.id)}>Load</button></th>
                   <th><button className="btn btn-danger btn-sm" onClick={() => handleSongDelete(loggedInUser, song.id)}>Delete</button></th>
                 </tr>
               </thead>))}
@@ -136,7 +132,11 @@ const UserSongPage = ({ history }) => {
           </Table>
         </Col>
       </Row>
-      <Pagination itemsCount={allData.length} pageSize={pageSize} handlePageChange={handlePageChange} currentPage={currentPage}/>
+      <Pagination
+        itemsCount={allData.length}
+        pageSize={pageSize}
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}/>
     </div>
   </Container>
   </> 

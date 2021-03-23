@@ -7,7 +7,7 @@ const LogoutPage = () => {
 
   if (localStorage) localStorage.removeItem('token')
 
-  function randText(){
+  const randText = () => {
     const arr = [
       'Hope to see you soon!', 'Come back soon!', 'Come back real soon!',
       'Make music again soon!', 'Cya again!', 'Come back and make tunes soon!']

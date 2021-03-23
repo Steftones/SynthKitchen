@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import Pagination from './common/pagination.js'
+import Pagination from './common/Pagination.js'
 import CommentModal from './common/CommentModal'
-import { paginate } from './common/paginate'
+import { paginate } from '../lib/paginate'
 import _ from 'lodash'
 import { getLoggedInUserId } from '../lib/auth'
 import { UserContext } from '../UserContext'
@@ -27,12 +27,12 @@ const SongPage = ({ history }) => {
     </>
   }
 
-  async function fetchData(){
+  const fetchData = async () => {
     const { data } = await axios.get('/api/songs')
     setAllData(data)
   }
 
-  async function loadSong(songId){
+  const loadSong = async (songId) => {
     const { data } = await axios.get(`/api/songs/${songId}`)
     const copy = { ...value }
     copy.currentSong = data.content
@@ -42,9 +42,7 @@ const SongPage = ({ history }) => {
     history.push('/music')
   }
 
-  console.log(allData, "all data")
-
-  async function handleSaveComment(comment, songId){
+  const handleSaveComment = async (comment, songId) => {
     if (comment.length < 1){
       return console.log('comment not long enough')
     }
@@ -56,10 +54,10 @@ const SongPage = ({ history }) => {
     }
   }
 
-  async function handleDeleteComment(songId, commentId){
+  const handleDeleteComment = async (songId, commentId) => {
     try {
       const token = localStorage.token
-      await axios.delete(`/api/songs/${songId}/comments/${commentId}`, { headers: { 'Authorization' : `Bearer ${token}` } })
+      await axios.delete(`/api/songs/${songId}/comments/${commentId}`, { headers: { 'Authorization': `Bearer ${token}` } })
       fetchData()
     } catch (err) {
       console.log(err.response)
@@ -74,10 +72,10 @@ const SongPage = ({ history }) => {
     setCurrentPage(page)
   }
 
-  async function handleSongDelete(userId, songId){
+  const handleSongDelete = async (userId, songId) => {
     try {
       const token = localStorage.token
-      await axios.delete(`/api/users/${userId}/songs/${songId}`, { headers: { 'Authorization' : `Bearer ${token}` } })
+      await axios.delete(`/api/users/${userId}/songs/${songId}`, { headers: { 'Authorization': `Bearer ${token}` } })
       fetchData()
     } catch (err) {
       console.log(err.response)
@@ -140,13 +138,17 @@ const SongPage = ({ history }) => {
                     <th>{song.content.tempo}</th>
                     <th>{song.content.songKey}</th>
                     <th><button className="btn btn-warning btn-sm" onClick={() => loadSong(song.id)}>Load</button></th>
-                    <th><CommentModal song={song} value={value} handleSaveComment={handleSaveComment} handleDeleteComment={handleDeleteComment}/></th>
+                    <th><CommentModal song={song} handleSaveComment={handleSaveComment} handleDeleteComment={handleDeleteComment}/></th>
                   </tr>
                 </thead>))}
             </Table>
           </Col>
         </Row>
-        <Pagination itemsCount={allData.length} pageSize={pageSize} handlePageChange={handlePageChange} currentPage={currentPage}/>
+        <Pagination
+          itemsCount={allData.length}
+          pageSize={pageSize}
+          handlePageChange={handlePageChange}
+          currentPage={currentPage}/>
       </div>
     </Container>
   </> 

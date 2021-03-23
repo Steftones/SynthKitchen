@@ -7,13 +7,14 @@ import Volume from './common/Volume'
 import Key from './common/Key'
 import Probability from './common/Probability'
 import SaveModal from './common/SaveModal'
+import StepCondition from './common/StepCondition'
 import Help from './common/Help'
 import Effect from './common/Effect'
 import TempoComponent from './common/TempoComponent'
+import StepNote from './common/StepNote'
 import { getLoggedInUserId } from '../lib/auth'
 import { Button, Container, Row, Col, Collapse } from 'react-bootstrap'
 import axios from 'axios'
-import StepNote from './common/StepNote'
 import * as Tone from 'tone'
 
 class Instrument {
@@ -106,7 +107,7 @@ class Instrument {
           release: 0.5
         }
       },
-      // drum related synths
+      // drum related synthesizers
       MembraneSynth: {
         volume: -6,
         envelope: {
@@ -144,7 +145,7 @@ class Instrument {
     }
   }
 
-  // effects
+  // add effects to each instrument
   addEffect(effect){
     if (!this.synth) return
     if (this.effect) this.synth.disconnect(this.effect)
@@ -355,6 +356,14 @@ const Sequencer = () => {
   const [snareOpen, setSnareOpen] = useState(false) 
   const [percOpen, setPercOpen] = useState(false)
   const [hatOpen, setHatOpen] = useState(false) 
+  const [osc1Open, setOsc1Open] = useState(false) 
+  const [osc2Open, setOsc2Open] = useState(false) 
+  const [kickConditionOpen, setKickConditionOpen] = useState(false) 
+  const [snareConditionOpen, setSnareConditionOpen] = useState(false) 
+  const [percConditionOpen, setPercConditionOpen] = useState(false)
+  const [hatConditionOpen, setHatConditionOpen] = useState(false) 
+  const [osc1ConditionOpen, setOsc1ConditionOpen] = useState(false) 
+  const [osc2ConditionOpen, setOsc2ConditionOpen] = useState(false) 
   
 
   if (!getLoggedInUserId()){
@@ -366,7 +375,7 @@ const Sequencer = () => {
     </>
   }
 
-  function changeDrumGridByVal(val){
+  const changeDrumGridByVal = (val) => {
     const drumType = val[0]
     const step = val.substring(2)
     const copy = { ...value }
@@ -379,7 +388,7 @@ const Sequencer = () => {
       if (previewMode){
         switch (drumType){
           case '0':
-            oscKick.play('C1','8n') // default value of C1
+            oscKick.play('C1','8n') // default value
             break
           case '1':
             oscSnare.play(null, '8n')
@@ -391,47 +400,47 @@ const Sequencer = () => {
             oscPerc.play('C1', '8n') 
             break
           default:
-            console.log('error')
+            console.log('error with drum playback')
         }
       } 
     }
   }
 
-  function changePolyGridByVal(val){
+  const changePolyGridByVal = (val) => {
     const note = val[0]
     const step = val.substring(2)
     const copy = { ...value }
     if (copy.currentSong.polyGrid[note][step] !== '-'){ // if the note is present
       copy.currentSong.polyGrid[note][step] = '-'
-      const newNotes = copy.currentSong.polySynth[step].playNote.filter(e => e !== note)
-      copy.currentSong.polySynth[step].playNote = newNotes
+      const newNotes = copy.currentSong.osc2[step].playNote.filter(e => e !== note)
+      copy.currentSong.osc2[step].playNote = newNotes
       setValue(copy)
     } else {
       copy.currentSong.polyGrid[note][step] = note
-      copy.currentSong.polySynth[step].playNote.push(note)
+      copy.currentSong.osc2[step].playNote.push(note)
       setValue(copy)
       if (previewMode) osc2.play(value.currentSong.notes[note], '8n')
     }
   }
 
-  function changeGridByVal(val){
+  const changeGridByVal = (val) => {
     const note = val[0]
     const step = val.substring(2)
     const copy = { ...value }
     if (copy.currentSong.grid[note][step] !== '-'){
       copy.currentSong.grid[note][step] = '-'
-      copy.currentSong.osc1[step] = '-'
+      copy.currentSong.osc1[step].playNote = '-'
       setValue(copy)
     } else {
       for (let i = 0; i < copy.currentSong.grid.length; i++){
         if (copy.currentSong.grid[i][step] !== '-') {
           copy.currentSong.grid[i][step] = '-'
-          copy.currentSong.osc1[step] = '-'
+          copy.currentSong.osc1[step].playNote = '-'
           setValue(copy)
         }
       }
       copy.currentSong.grid[note][step] = note
-      copy.currentSong.osc1[step] = note
+      copy.currentSong.osc1[step].playNote = note
       setValue(copy)
       if (previewMode){
         osc1.play(value.currentSong.notes[note], '8n')
@@ -440,7 +449,7 @@ const Sequencer = () => {
   }
 
   const [isPlaying, setIsPlaying] = useState(false)
-  function startStop(){
+  const startStop = () => {
     setIsPlaying(!isPlaying)
     !isPlaying ? Tone.Transport.start() : Tone.Transport.stop()
   }
@@ -479,20 +488,51 @@ const Sequencer = () => {
   Tone.Transport.bpm.value = value.currentSong.tempo
 
   let index = 0
+  let round = 1
+
+  const incrementLoop = (index) => {
+    if (index === 0) return 1
+    if (index % 16 === 0) round++
+    if (round === 5) round = 1
+  }
+
+  // checks for step conditions
+  const checkStepCondition = (condition, round) => {
+    switch (condition){
+      case '1:1':
+        return true
+      case '2:2':
+        return round % 2 === 0 ? true : false
+      default:
+        return round === parseInt(condition[0]) ? true : false
+    }
+  }
+
   // osc1 repeat
-  function repeat(time){
+  const repeat = (time) => {
     const position = index % value.currentSong.osc1.length
     const synthNote = value.currentSong.osc1[position]
-    if (synthNote !== '-') osc1.play(value.currentSong.notes[synthNote], '8n', time)
+
+    // increment the sequence loop count
+    incrementLoop(index)
+
+    if (
+      synthNote.playNote !== '-' &&
+      Math.random() <= synthNote.probability &&
+      checkStepCondition(synthNote.condition, round)
+    ) osc1.play(value.currentSong.notes[synthNote.playNote], '8n', time)
     index++
   }
 
-  let indexPoly = 0
   // poly synth repeat
-  function repeatPoly(time){
-    const position = indexPoly % value.currentSong.polySynth.length
-    const polyNote = value.currentSong.polySynth[position]
-    if (polyNote.playNote.length !== 0 && Math.random() <= polyNote.probability){
+  let indexPoly = 0
+  const repeatPoly = (time) => {
+    const position = indexPoly % value.currentSong.osc2.length
+    const polyNote = value.currentSong.osc2[position]
+    if (
+      polyNote.playNote.length !== 0 &&
+      Math.random() <= polyNote.probability
+    ){
       const playNotesInScale = []
       polyNote.playNote.forEach((n) => {
         playNotesInScale.push(value.currentSong.notes[n])
@@ -502,34 +542,49 @@ const Sequencer = () => {
     indexPoly++
   }
 
-  let indexDrums = 0
   // drums repeat
-  function repeatDrums(time){
+  let indexDrums = 0
+  const repeatDrums = (time) => {
     const position = indexDrums % value.currentSong.drums[0].length
     setStepIndex(indexDrums % value.currentSong.osc1.length) // setting the step index
     const kick = value.currentSong.drums[0][position]
     const snare = value.currentSong.drums[1][position]
     const hat = value.currentSong.drums[2][position]
     const perc = value.currentSong.drums[3][position]
-    if (kick.playNote !== '-' && Math.random() <= kick.probability){
+    if (
+      kick.playNote !== '-' &&
+      Math.random() <= kick.probability &&
+      checkStepCondition(kick.condition, round)
+    ){
       oscKick.play(kick.playNote,'8n', time)
     }
-    if (snare.playNote !== '-' && Math.random() <= snare.probability){
+    if (
+      snare.playNote !== '-' &&
+      Math.random() <= snare.probability &&
+      checkStepCondition(snare.condition, round)
+    ){
       oscSnare.play(null, '8n', time)
     }
-    if (hat.playNote !== '-' && Math.random() <= hat.probability){
+    if (
+      hat.playNote !== '-' &&
+      Math.random() <= hat.probability
+      && checkStepCondition(hat.condition, round)
+    ){
       oscHat.play(null, '8n', time)
     }
-    if (perc.playNote !== '-' && Math.random() <= perc.probability){
+    if (
+      perc.playNote !== '-' &&
+      Math.random() <= perc.probability &&
+      checkStepCondition(perc.condition, round)
+    ){
       oscPerc.play(perc.playNote, '8n', time) 
     } 
     indexDrums++
   }
 
-  let useEffectStarted = false
   useEffect(() => {
     setIsPlaying(false)
-    if (useEffectStarted) return
+
     scales.transposeScale(value.currentSong.songKey, value.currentSong.songScale)
 
     // init instruments with settings from context
@@ -552,27 +607,32 @@ const Sequencer = () => {
     osc2.addEffect(value.currentSong.osc2Effect)
 
     oscKick.addEffect(value.currentSong.kickEffect)
+    oscKick.updateVolume(value.currentSong.kickVolume)
     oscSnare.addEffect(value.currentSong.snareEffect)
+    oscSnare.updateVolume(value.currentSong.snareVolume)
     oscHat.addEffect(value.currentSong.hatEffect)
+    oscHat.updateVolume(value.currentSong.hatVolume)
     oscPerc.addEffect(value.currentSong.percEffect)
+    oscPerc.updateVolume(value.currentSong.percVolume)
 
     Tone.Transport.scheduleRepeat((time) => { 
       repeat(time)
       repeatPoly(time)
       repeatDrums(time)
     }, '8n')
-    useEffectStarted = true
+
   },[])
 
-  function canEdit(){
+  const canEdit = () => {
     if (value.songUser.id !== loggedInUser) return false
     if (value.songId) return true
   }
 
-  async function handleSave(input){
+  const handleEditSave = async (input, editOrSave) => {
     const { songName, genre } = input
     try {
       const userId = getLoggedInUserId()
+      const songId = value.songId
       const token = localStorage.token
 
       let copy = { ...value['currentSong'] }
@@ -581,7 +641,15 @@ const Sequencer = () => {
       copy.songName = songName
       copy.genre = genre
 
-      const { data } = await axios.post(`/api/users/${userId}/songs`, { content: copy }, { headers: { 'Authorization': `Bearer ${token}` } })
+      let data
+
+      if (editOrSave === 'edit'){
+        await axios.put(`/api/users/${userId}/songs/${songId}`, { content: copy }, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(response => data = response.data)
+      } else {
+        await axios.post(`/api/users/${userId}/songs`, { content: copy }, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(response => data = response.data)
+      }
 
       copy = { ...value }
       const response = { ...data }
@@ -595,34 +663,7 @@ const Sequencer = () => {
     }
   }
 
-  async function handleEdit(input){
-    const { songName, genre } = input
-    try {
-      const userId = getLoggedInUserId()
-      const songId = value.songId
-      const token = localStorage.token
-
-      let copy = { ...value['currentSong'] }
-      copy.osc1Settings = osc1.getSettings()
-      copy.osc2Settings = osc2.getPolySettings()
-      copy.songName = songName
-      copy.genre = genre
-
-      const { data } = await axios.put(`/api/users/${userId}/songs/${songId}`, { content: copy }, { headers: { 'Authorization': `Bearer ${token}` } })
-
-      copy = { ...value }
-      const response = { ...data }
-      copy.songId = response.id
-      copy.songUser = response.user
-      copy.currentSong = response.content
-
-      setValue(copy)
-    } catch (err) {
-      console.log(err.response)
-    }
-  }
-
-  function handleEffectChange(event, toChange, changing){
+  const handleEffectChange = (event, toChange, changing) => {
     const change = event.target.value
     console.log(change, toChange)
     toChange.addEffect(change)
@@ -631,7 +672,7 @@ const Sequencer = () => {
     setValue(copy)
   }
 
-  function handleSynthChange(event, toChange){
+  const handleSynthChange = (event, toChange) => {
     toChange.updateSynthType(event)
     const copy = { ...value }
     toChange === osc1
@@ -640,12 +681,44 @@ const Sequencer = () => {
     setValue(copy)
   }
 
-  function handleOscillatorChange(event, toChange){
+  const handleOscillatorChange = (event, toChange) => {
     toChange.updateOscillatorType(event)
     const copy = { ...value }
     toChange === osc1
       ? copy.currentSong.osc1Settings.oscType = event
       : copy.currentSong.osc2Settings.oscType = event
+    setValue(copy)
+  }
+
+  const handleVolumeChange = (event, toChange) => {
+    const volume = event.target.value
+    volume <= -30
+      ? toChange.updateVolume(-Infinity)
+      : toChange.updateVolume(event.target.value)
+    const copy = { ...value }
+    switch (toChange){
+      case osc1:
+        copy.currentSong.osc1Settings.volume = volume
+        break
+      case osc2:
+        copy.currentSong.osc2Settings.volume = volume
+        break
+      case oscKick:
+        copy.currentSong.kickVolume = volume
+        break
+      case oscSnare:
+        copy.currentSong.snareVolume = volume
+        break
+      case oscHat:
+        copy.currentSong.hatVolume = volume
+        break
+      case oscPerc:
+        copy.currentSong.percVolume = volume
+        break
+      default:
+        alert('volume handling error')
+        break
+    }
     setValue(copy)
   }
   
@@ -668,24 +741,181 @@ const Sequencer = () => {
 
   const updateStep = (event, index, toUpdate) => {
     const copy = { ...value }
-    copy.currentSong.drums[toUpdate][index].probability = event.target.value
+    if (toUpdate === 4){
+      copy.currentSong.osc1[index].probability = event.target.value
+    } else if (toUpdate === 5){
+      copy.currentSong.osc2[index].probability = event.target.value
+    } else {
+      copy.currentSong.drums[toUpdate][index].probability = event.target.value
+    }
     setValue(copy)
   }
+
+  const updateStepCondition = (event, index, toUpdate) => {
+    const copy = { ...value }
+    if (toUpdate === 4){
+      copy.currentSong.osc1[index].condition = event.target.value
+    } else if (toUpdate === 5){
+      copy.currentSong.osc2[index].condition = event.target.value
+    } else {
+      copy.currentSong.drums[toUpdate][index].condition = event.target.value
+    }
+    setValue(copy)
+  }
+
+  const stepSequencer = (type, toMap, change) => (
+    toMap.map((line, index) => {
+      let count = -1
+      let secondBeat = true
+      return line.map((e, i) => {
+        count++
+        if (count === 4){
+          secondBeat = !secondBeat
+          count = 0
+        }
+        return <>
+          <StepNote
+            type={type}
+            stepIndex={stepIndex}
+            step={i}
+            val={`${index}-${i}`}
+            change={change}
+            beat={secondBeat}
+            active={
+              (type === 'drumStep' ? e.playNote : e) === '-' ? false : true
+            }/>
+        </>
+      })
+    }
+    )
+  )
+
+  const collapsedOptions = (optionState, conditionState, displayText, update) => (
+    <>
+      <Collapse in={optionState}>
+        <div>
+          <Probability
+            displayText={displayText}
+            steps={value.currentSong.grid[0]}
+            updateStep={updateStep}
+            toUpdate={update}
+            value={value}/>
+        </div>
+      </Collapse>
+      <Collapse in={conditionState}>
+        <div>
+          <StepCondition
+            displayText={displayText}
+            steps={value.currentSong.grid[0]}
+            updateStepCondition={updateStepCondition}
+            toUpdate={update}
+            value={value}/>
+        </div>
+      </Collapse>
+    </>
+  )
+
+  const displayOsc = (display, toChange, settings, effectSettings, open, setOpen, conditionOpen, setConditionOpen) => (
+    <Row>
+      <Col lg='2'>
+        <h5>{display}</h5>
+      </Col>
+      <Col>
+        <ADSR
+          toChange={toChange}
+          settings={settings}/>
+        <Row>
+          <Col lg="3">
+            <br/>
+            Volume: 
+          </Col>
+          <Col>
+            <br/>
+            <Volume
+              toChange={toChange}
+              handleVolumeChange={handleVolumeChange}
+              startValue={settings.volume}/>
+            <br/>
+            <br/>
+          </Col>
+        </Row>
+      </Col>
+      <Col>
+        <OscType
+          toChange={toChange}
+          startValue={settings}
+          handleSynthChange={handleSynthChange}
+          handleOscillatorChange={handleOscillatorChange}/>
+        <Row>
+          <Col lg="4">Effect: </Col>
+          <Col>
+            <Effect
+              toChange={toChange}
+              handleEffectChange={handleEffectChange}
+              changing={'osc1Effect'}
+              startValue={effectSettings}/>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              className={`editButton ${open ? 'active' : ''}`}
+              size="sm" onClick={() => setOpen(!open)}
+              aria-expanded={open}>%</Button>
+            &nbsp;
+            <Button
+              className={`editButton ${conditionOpen ? 'active' : ''}`}
+              size="sm"
+              onClick={() => setConditionOpen(!conditionOpen)}
+              aria-expanded={open}>A:B</Button>
+          </Col>
+        </Row>
+      </Col>
+    </Row> 
+  )
+
+  const displayDrumSettings = (label, change, volume, effect, effectChanging, open, setOpen, condition, setCondition ) => (
+    <>
+      <Col>
+        <div className="volumeLabel">{label}</div>
+        <Volume
+          toChange={change}
+          handleVolumeChange={handleVolumeChange}
+          startValue={volume}/>
+      </Col>
+      <Col lg='3'>
+        <Effect
+          toChange={change}
+          handleEffectChange={handleEffectChange}
+          changing={effectChanging}
+          startValue={effect}/></Col>
+      <Col>
+        <Button
+          className={`editButton ${open ? 'active' : ''}`}
+          size="sm"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}>%</Button>
+        &nbsp;
+        <Button
+          className={`editButton ${condition ? 'active' : ''}`}
+          size="sm"
+          onClick={() => setCondition(!condition)}
+          aria-expanded={open}>A:B</Button>
+      </Col>
+    </>
+  )
 
   return <> 
     <Navigation />
     <Container className="pageContainer">
 
       <Row>
-
         <Col/>
         <Col><h1 className="sequencerTitle">SynthKitchen</h1></Col>
         <Col/>
-
       </Row>
 
       <Row>
-
         <Col className="sequencerContainer">
           <Button
             className="sequencerControl playPause"
@@ -698,18 +928,23 @@ const Sequencer = () => {
             onClick={() => setPreviewMode(!previewMode)}>
             {previewMode ? 'Mute Selection' : 'Selection Muted'}
           </Button>
-          <Button className='sequencerControl' onClick={() => setHelpState(!helpState)}>Help</Button>
+          <Button
+            className={`sequencerControl ${helpState ? 'active' : null}`}
+            onClick={() => setHelpState(!helpState)}>Help</Button>
         </Col>
-
         <Col className="sequencerContainer">
           <h4>Global Settings</h4>
           <Key scales={scales} value={value}/><br/>
           <Help canDisplay={helpState} display={'global'}/>
-          Octave: {value.currentSong.octave} <Button className="sequencerControl" onClick={() => scales.changeOctave(-1)}>-</Button>
-          <Button className="sequencerControl" onClick={() => scales.changeOctave(1)}>+</Button>
+          Octave: {value.currentSong.octave}
+          <Button
+            className="sequencerControl"
+            onClick={() => scales.changeOctave(-1)}>-</Button>
+          <Button
+            className="sequencerControl"
+            onClick={() => scales.changeOctave(1)}>+</Button>
           <TempoComponent value={value} setValue={setValue}/>
         </Col>
-
         <Col className="sequencerContainer">
           <br/>
           <Row>
@@ -719,63 +954,28 @@ const Sequencer = () => {
             </Col>
             <Col >
               <Help canDisplay={helpState} display={'save'}/>
-              <SaveModal value={value} handleSave={handleSave} handleEdit={handleEdit} canEdit={canEdit}/>
+              <SaveModal
+                value={value}
+                handleEditSave={handleEditSave}
+                canEdit={canEdit}/>
             </Col>
           </Row>
         </Col>
-
       </Row>
 
       <Row>
-
         <Col className="stepSequencer">
           <div id="drumMachine">
             <Help canDisplay={helpState} display={'drumSequencer'}/>
             <br/>
-            {value.currentSong.drums.map((line, index) => {
-              let count = -1
-              let secondBeat = true
-              return line.map((e, i) => {
-                count++
-                if (count === 4){
-                  secondBeat = !secondBeat
-                  count = 0
-                }
-                return <>
-                  <StepNote
-                    type={'drumStep'}
-                    stepIndex={stepIndex}
-                    step={i} val={`${index}-${i}`}
-                    change={changeDrumGridByVal}
-                    beat={secondBeat}
-                    active={e.playNote === '-' ? false : true}/>
-                </>
-              })
-            })}
+            {stepSequencer('drumStep', value.currentSong.drums, changeDrumGridByVal)}
             <br/>
-            <Collapse in={kickOpen}>
-              <div>
-                <Probability displayText={'Kick drum'} steps={value.currentSong.grid[0]} updateStep={updateStep} toUpdate={0}/>
-              </div>
-            </Collapse>
-            <Collapse in={snareOpen}>
-              <div>
-                <Probability displayText={'Snare drum'} steps={value.currentSong.grid[0]} updateStep={updateStep} toUpdate={1}/>
-              </div>
-            </Collapse>
-            <Collapse in={hatOpen}>
-              <div>
-                <Probability displayText={'Hi-hat'} steps={value.currentSong.grid[0]} updateStep={updateStep} toUpdate={2}/>
-              </div>
-            </Collapse>
-            <Collapse in={percOpen}>
-              <div>
-                <Probability displayText={'Percussion '} steps={value.currentSong.grid[0]} updateStep={updateStep} toUpdate={3}/>
-              </div>
-            </Collapse>
+            {collapsedOptions(kickOpen, kickConditionOpen, 'Kick drum', 0)}
+            {collapsedOptions(snareOpen, snareConditionOpen, 'Snare drum', 1)}
+            {collapsedOptions(hatOpen, hatConditionOpen, 'Hi-hat', 2)}
+            {collapsedOptions(percOpen, percConditionOpen, 'Percussion', 3)}
           </div>
         </Col>
-
         <Col lg='8' >
           <Container className="synthSettings">
             <Row>
@@ -788,190 +988,71 @@ const Sequencer = () => {
                 <b>Effect</b>
                 <Help canDisplay={helpState} display={'effect'}/>
               </Col>
-              <Col><b>Edit</b></Col>
+              <Col>
+                <b>Edit</b>
+                <Help canDisplay={helpState} display={'probabilityAndConditions'}/>
+              </Col>
             </Row>
             <Row>
               <Col lg='2'><h5>DrumSynth</h5></Col>
-              <Col><div className="volumeLabel">Kick:</div><Volume toChange={oscKick}/></Col>
-              <Col lg='3'><Effect toChange={oscKick} handleEffectChange={handleEffectChange} changing={'kickEffect'} startValue={value.currentSong.kickEffect}/></Col>
-              <Col>
-                <Help canDisplay={helpState} display={'probability'}/>
-                <Button
-                  className={`editButton ${kickOpen ? 'active' : ''}`}
-                  size="sm" onClick={() => setKickOpen(!kickOpen)}
-                  aria-controls="example-collapse-text"
-                  aria-expanded={kickOpen}>%</Button>
-              </Col>
+              {displayDrumSettings('Kick:', oscKick, value.currentSong.kickVolume, value.currentSong.kickEffect, 'kickEffect', kickOpen, setKickOpen, kickConditionOpen, setKickConditionOpen)}
             </Row>
             <Row>
               <Col lg='2'></Col>
-              <Col>
-                <div className="volumeLabel">Snare:</div><Volume toChange={oscSnare}/>
-              </Col>
-              <Col lg='3'>
-                <Effect toChange={oscSnare} handleEffectChange={handleEffectChange} changing={'snareEffect'} startValue={value.currentSong.snareEffect}/></Col>
-              <Col>
-                <Button
-                  className={`editButton ${snareOpen ? 'active' : ''}`}
-                  size="sm"
-                  onClick={() => setSnareOpen(!snareOpen)}
-                  aria-controls="example-collapse-text"
-                  aria-expanded={kickOpen}>%</Button>
-              </Col>
+              {displayDrumSettings('Snare:', oscSnare, value.currentSong.snareVolume, value.currentSong.snareEffect, 'snareEffect', snareOpen, setSnareOpen, snareConditionOpen, setSnareConditionOpen)}
             </Row>
             <Row>
               <Col lg='2'></Col>
-              <Col><div className="volumeLabel">Hat:</div><Volume toChange={oscHat}/></Col>
-              <Col lg='3'>
-                <Effect toChange={oscHat} handleEffectChange={handleEffectChange} changing={'hatEffect'} startValue={value.currentSong.hatEffect}/></Col>
-              <Col>
-                <Button
-                  className={`editButton ${hatOpen ? 'active' : ''}`}
-                  size="sm"
-                  onClick={() => setHatOpen(!hatOpen)}
-                  aria-controls="example-collapse-text"
-                  aria-expanded={kickOpen}>%</Button>
-              </Col>
+              {displayDrumSettings('Hat:', oscHat, value.currentSong.hatVolume, value.currentSong.hatEffect, 'hatEffect', hatOpen, setHatOpen, hatConditionOpen, setHatConditionOpen)}
             </Row>
             <Row>
               <Col lg='2'></Col>
-              <Col><div className="volumeLabel">Perc:</div><Volume toChange={oscPerc}/></Col>
-              <Col lg='3'><Effect toChange={oscPerc} handleEffectChange={handleEffectChange} changing={'percEffect'} startValue={value.currentSong.percEffect}/></Col>
-              <Col>
-                <Button
-                  className={`editButton ${percOpen ? 'active' : ''}`}
-                  size="sm"
-                  onClick={() => setPercOpen(!percOpen)}
-                  aria-controls="example-collapse-text"
-                  aria-expanded={kickOpen}>%</Button>
-              </Col>
+              {displayDrumSettings('Perc:', oscPerc, value.currentSong.percVolume, value.currentSong.percEffect, 'percEffect', percOpen, setPercOpen, percConditionOpen, setPercConditionOpen)}
             </Row> 
-            
           </Container>
         </Col>
-
       </Row>
 
       <Row>
         <Col className="stepSequencer">
           <div id="monoSynth">
             <Help canDisplay={helpState} display={'monoSequencer'}/>
-            {value.currentSong.grid.map((line, index) => {
-              let count = -1
-              let secondBeat = true
-              return line.map((e, i) => {
-                count++
-                if (count === 4){
-                  secondBeat = !secondBeat
-                  count = 0
-                }
-                return <>
-                  <StepNote
-                    type={'osc1Step'}
-                    stepIndex={stepIndex}
-                    step={i}
-                    val={`${index}-${i}`}
-                    change={changeGridByVal}
-                    beat={secondBeat}
-                    active={e === '-' ? false : true}/>
-                  </>
-              })
-            })}
+            {stepSequencer('osc1Step', value.currentSong.grid, changeGridByVal)}
             <br/>
-            
+            {collapsedOptions(osc1Open, osc1ConditionOpen, 'MonoSynth', 4)}
           </div>
         </Col>
-
         <Col lg="8">
           <Container className="synthSettings">
             <Row>
               <Col lg='2'></Col>
               <Col><b>Properties</b><Help canDisplay={helpState} display={'ADSR'}/></Col>
-              <Col><b>Type<Help canDisplay={helpState} display={'type'}/></b></Col>
+              <Col><b>Edit<Help canDisplay={helpState} display={'type'}/></b></Col>
             </Row>
-            <Row>
-              <Col lg='2'>
-                <h5>MonoSynth</h5>
-              </Col>
-              <Col>
-                <ADSR toChange={osc1} settings={value.currentSong.osc1Settings}/>
-                <br/>
-                  Volume:
-                <br/>
-                <Volume toChange={osc1}/>
-              </Col>
-              <Col>
-                <OscType toChange={osc1} startValue={value.currentSong.osc1Settings} handleSynthChange={handleSynthChange} handleOscillatorChange={handleOscillatorChange}/>
-                <br/>
-                Effect
-                <br/>
-                <Effect toChange={osc1} handleEffectChange={handleEffectChange} changing={'osc1Effect'} startValue={value.currentSong.osc1Effect}/>
-                
-              </Col>
-            </Row> 
-            
+            {displayOsc('MonoSynth', osc1, value.currentSong.osc1Settings, value.currentSong.osc1Effect, osc1Open, setOsc1Open, osc1ConditionOpen, setOsc1ConditionOpen)}
           </Container>
         </Col>
-
       </Row>
 
       <Row>
-        
         <Col className="stepSequencer">
           <div id="polySynth">
             <Help canDisplay={helpState} display={'polySequencer'}/>
-            {value.currentSong.polyGrid.map((line, index) => {
-              let count = -1
-              let secondBeat = true
-              return line.map((e, i) => {
-                count++
-                if (count === 4){
-                  secondBeat = !secondBeat
-                  count = 0
-                }
-                return <>
-                  <StepNote
-                    type={'polyStep'}
-                    stepIndex={stepIndex}
-                    step={i}
-                    val={`${index}-${i}`}
-                    change={changePolyGridByVal}
-                    beat={secondBeat}
-                    active={e === '-' ? false : true}/>
-                  </>
-              })
-            })}
+            {stepSequencer('polyStep', value.currentSong.polyGrid, changePolyGridByVal)}
             <br/>
+            {collapsedOptions(osc2Open, osc2ConditionOpen, 'PolySynth', 5)}
           </div>
         </Col>
-
         <Col lg="8">
           <Container className="synthSettings">
             <Row>
               <Col lg='2'></Col>
               <Col><b>Properties</b></Col>
-              <Col><b>Type</b></Col>
+              <Col><b>Edit</b></Col>
             </Row>
-            <Row>
-              <Col lg='2'><h5>PolySynth</h5></Col>
-              <Col>
-                <ADSR toChange={osc2} settings={value.currentSong.osc2Settings}/>
-                <br/>
-                  Volume:
-                <br/>
-                <Volume toChange={osc2}/>
-              </Col>
-              <Col>
-                <OscType toChange={osc2} startValue={value.currentSong.osc2Settings} handleSynthChange={handleSynthChange} handleOscillatorChange={handleOscillatorChange}/>
-                <br/>
-                Effect
-                <br/>
-                <Effect toChange={osc2} handleEffectChange={handleEffectChange} changing={'osc2Effect'} startValue={value.currentSong.osc2Effect}/>
-              </Col>
-            </Row> 
+            {displayOsc('PolySynth', osc2, value.currentSong.osc2Settings, value.currentSong.osc2Effect, osc2Open, setOsc2Open, osc2ConditionOpen, setOsc2ConditionOpen)}
           </Container>
         </Col>
-
       </Row>
 
       <Row>

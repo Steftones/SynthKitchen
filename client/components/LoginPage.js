@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import Navigation from './common/Navigation'
-import { Row, Col, Card, Container } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import CustomToast from './common/CustomToast'
 
-export default function LoginPage({ history }){
+const LoginPage = ({ history }) => {
 
   const [formData, updateFormData] = useState({
     email: '',
@@ -13,13 +13,13 @@ export default function LoginPage({ history }){
   const [showError, setShowError] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
 
-  function handleChange(event){
+  const handleChange = (event) => {
     const name = event.target.name
     const value = event.target.value
     updateFormData({ ...formData, [name]: value })
   }
 
-  async function handleSubmit(event){
+  const handleSubmit = async (event) => {
     event.preventDefault()
     try {
       const { data } = await axios.post('/api/login', formData)
@@ -71,3 +71,4 @@ export default function LoginPage({ history }){
   </>
 }
 
+export default LoginPage

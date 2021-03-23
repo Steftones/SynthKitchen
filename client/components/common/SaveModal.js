@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const SaveModal = ({ handleSave, handleEdit, value, canEdit }) => {
+const SaveModal = ({ value, handleEditSave, canEdit }) => {
+
   const [show, setShow] = useState(false)
 
+  const genres = [
+    'Dance', 'Pop', 'Hip Hop', 'Drum n Bass',
+    'House', 'World', 'Electro', 'Dubstep',
+    'Ambient', 'Rap', 'IDM', 'Experimental', 'Other'
+  ]
+
   const editSongButton = <button className="btn btn-secondary btn-sm m-2" onClick={() => {
-    handleEdit(formData)
+    handleEditSave(formData, 'edit')
     handleClose()
   }}>Edit Song</button> 
 
@@ -14,7 +21,7 @@ const SaveModal = ({ handleSave, handleEdit, value, canEdit }) => {
     genre: 'Electronica'
   })
 
-  function handleChange(event){
+  const handleChange = (event) => {
     const name = event.target.name
     const input = event.target.value
     updateFormData({ ...formData, [name]: input })
@@ -55,27 +62,14 @@ const SaveModal = ({ handleSave, handleEdit, value, canEdit }) => {
               <div className="field">
                 Genre:
                 <select id="key-type" onChange={handleChange} name={'genre'}>
-                  <option value="Electronica">Electronica</option>
-                  <option value="Dance">Dance</option>
-                  <option value="Pop">Pop</option>
-                  <option value="Hip Hop">Hip Hop</option>
-                  <option value="Drum n Bass">Drum n Bass</option>
-                  <option value="House">House</option>
-                  <option value="World">World</option>
-                  <option value="Electro">Electro</option>
-                  <option value="Dubstep">Dubstep</option>
-                  <option value="Ambient">Ambient</option>
-                  <option value="Rap">Rap</option>
-                  <option value="IDM">IDM</option>
-                  <option value="Experimental">Experimental</option>
-                  <option value="Other">Other</option>
+                  {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
                 </select>
               </div>
               <br />
             </form>
 
             <button className="btn btn-secondary btn-sm m-2" onClick={() => {
-              handleSave(formData)
+              handleEditSave(formData, 'save')
               handleClose()
             }}>Save New</button> 
 

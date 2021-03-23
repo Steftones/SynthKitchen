@@ -4,7 +4,7 @@ import Navigation from './common/Navigation'
 import { Card } from 'react-bootstrap'
 import CustomToast from './common/CustomToast'
 
-export default function RegisterPage({ history }){
+const RegisterPage = ({ history }) => {
 
   const [formData, updateFormData] = useState({
     username: '',
@@ -14,7 +14,7 @@ export default function RegisterPage({ history }){
   const [showError, setShowError] = useState(false)
   const [toastMessage, setToastMessage] = useState('')  
 
-  async function handleSubmit(event){
+  const handleSubmit = async (event) => {
     event.preventDefault()
     try {
       const { data } = await axios.post('/api/register', formData)
@@ -31,7 +31,7 @@ export default function RegisterPage({ history }){
     }
   }
 
-  function handleChange(event){
+  const handleChange = (event) => {
     const name = event.target.name
     const value = event.target.value
     updateFormData({ ...formData, [name]: value })
@@ -82,4 +82,6 @@ export default function RegisterPage({ history }){
   </div>
   </>
 }
+
+export default RegisterPage
 

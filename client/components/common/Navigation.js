@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { NavLink } from 'react-router-dom'
-import { UserContext } from '../../UserContext'
-import { getLoggedInUserId } from '../../lib/auth'
 
 const Navigation = ()=>{
 

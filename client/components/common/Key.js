@@ -2,24 +2,19 @@ import React from 'react'
 
 const Key = ({ scales, value }) => {
 
+  const keys = [
+    'C','C#','D','Eb',
+    'F','F#','G','G#',
+    'A','Bb','B'
+  ]
+
   return <>
     
   <span>Key: </span>
   <select className="keySelect" onChange={(event) => {
     scales.transposeScale(event.target.value, value.currentSong.songScale)
   }} value={value.currentSong.songKey}>
-    <option value="C">C</option>
-    <option value="C#">C#</option>
-    <option value="D">D</option>
-    <option value="Eb">Eb</option>
-    <option value="E">E</option>
-    <option value="F">F</option>
-    <option value="F#">F#</option>
-    <option value="G">G</option>
-    <option value="G#">G#</option>
-    <option value="A">A</option>
-    <option value="Bb">Bb</option>
-    <option value="B">B</option>
+    {keys.map((element, index) => <option key={index} value={element}>{element}</option>)}
   </select>
 
   <span> Scale: </span>
