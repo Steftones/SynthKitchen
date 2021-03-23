@@ -4,7 +4,7 @@ import { getLoggedInUserId } from '../../lib/auth'
 import axios from 'axios'
 import _ from 'lodash'
 import Pagination from './Pagination'
-import { paginate } from './paginate'
+import { paginate } from '../../lib/paginate.js'
 
 const LoadModal = ({ handleLoad, value, setValue, history }) => {
   const [show, setShow] = useState(false)
