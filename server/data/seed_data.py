@@ -13,5 +13,5 @@ list_songs = [
 ]
 
 list_comments = [
-    Comment(content='Great song!', user_id=2, song_id=1),
+    Comment(content='Great song!', user_id=2, song_id=1)
 ]
