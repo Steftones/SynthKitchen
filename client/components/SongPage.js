@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Pagination from './common/Pagination'
 import CommentModal from './common/CommentModal'
-import { paginate } from '../lib/paginate'
 import _ from 'lodash'
 import { getLoggedInUserId } from '../lib/auth'
 import { UserContext } from '../UserContext'
@@ -62,6 +61,11 @@ const SongPage = ({ history }) => {
     } catch (err) {
       console.log(err.response)
     }
+  }
+
+  const paginate = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize
+    return _(items).slice(startIndex).take(pageSize).value() // lodash wrapper to chain methods
   }
 
   useEffect(() => {
