@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode=development",
+    "start": "pipenv run flask run",
     "seed": "pipenv run python server/seed.py",
     "build": "pipenv install; npm i; webpack -p",
     "serve:react": "webpack-dev-server",
