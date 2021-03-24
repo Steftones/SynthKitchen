@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Pagination from './Pagination'
 import { paginate } from '../../lib/paginate.js'
 
-const LoadModal = ({ handleLoad, value, setValue, history }) => {
+const LoadModal = ({ handleLoad, value, setValue }) => {
   const [show, setShow] = useState(false)
 
   const handleClose = () => setShow(false)
