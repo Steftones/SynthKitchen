@@ -13,7 +13,7 @@ const Help = ({ canDisplay, display }) => {
     case 'drumSequencer':
       displayText = <>
         {sequencerText}<br/><br/>
-        From top to bottom, each row represents a different drum part - kick drum, snare drum, hi-hat and percussion.
+        From top to bottom, each row represents a different drum part - kick drum, snare drum, hi hat and percussion.
       </>
       break
     case 'monoSequencer':
