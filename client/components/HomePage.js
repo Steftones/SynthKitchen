@@ -21,6 +21,10 @@ const HomePage = () => {
               <NavLink className="navbar-item" to="/register">
                 <button className="btn btn-primary btn-lg m-2">Register</button>
               </NavLink>
+              <br/>
+              <NavLink className="navbar-item" to="/music">
+                <button className="btn btn-primary btn-lg m-2">Make Music</button>
+              </NavLink>
             </p>
           </Card>
         </div>

@@ -364,16 +364,6 @@ const Sequencer = () => {
   const [hatConditionOpen, setHatConditionOpen] = useState(false) 
   const [osc1ConditionOpen, setOsc1ConditionOpen] = useState(false) 
   const [osc2ConditionOpen, setOsc2ConditionOpen] = useState(false) 
-  
-
-  if (!getLoggedInUserId()){
-    return <>
-      <Navigation />
-      <Container className="pageContainer">
-        <div>Please login!</div>
-      </Container>
-    </>
-  }
 
   const changeDrumGridByVal = (val) => {
     const drumType = val[0]
@@ -531,7 +521,8 @@ const Sequencer = () => {
     const polyNote = value.currentSong.osc2[position]
     if (
       polyNote.playNote.length !== 0 &&
-      Math.random() <= polyNote.probability
+      Math.random() <= polyNote.probability &&
+      checkStepCondition(polyNote.condition, round)
     ){
       const playNotesInScale = []
       polyNote.playNote.forEach((n) => {
@@ -665,7 +656,6 @@ const Sequencer = () => {
 
   const handleEffectChange = (event, toChange, changing) => {
     const change = event.target.value
-    console.log(change, toChange)
     toChange.addEffect(change)
     const copy = { ...value }
     copy.currentSong[changing] = change
@@ -724,15 +714,6 @@ const Sequencer = () => {
   
   let displayUser
 
-  if (!getLoggedInUserId()){
-    return <>
-      <Navigation />
-      <Container className="pageContainer">
-        <div>Please login!</div>
-      </Container>
-    </>
-  }
-
   if (value.songUser){
     displayUser = <div>Artist: {value.songUser.username}</div>
   } else {
@@ -790,6 +771,7 @@ const Sequencer = () => {
     )
   )
 
+  // {collapsedOptions(osc2Open, osc2ConditionOpen, 'PolySynth', 5)}
   const collapsedOptions = (optionState, conditionState, displayText, update) => (
     <>
       <Collapse in={optionState}>
@@ -852,7 +834,7 @@ const Sequencer = () => {
             <Effect
               toChange={toChange}
               handleEffectChange={handleEffectChange}
-              changing={'osc1Effect'}
+              changing={`${display === 'PolySynth' ? 'osc2Effect' : 'osc1Effect'}`}
               startValue={effectSettings}/>
           </Col>
         </Row>

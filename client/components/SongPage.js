@@ -17,15 +17,6 @@ const SongPage = ({ history }) => {
   const [loggedInUser, setLoggedInUser] = useState(getLoggedInUserId())
   const { value, setValue } = useContext(UserContext)
 
-  if (!getLoggedInUserId()){
-    return <>
-      <Navigation />
-      <Container className="pageContainer">
-        <div>Please login!</div>
-      </Container>
-    </>
-  }
-
   const fetchData = async () => {
     const { data } = await axios.get('/api/songs')
     setAllData(data)

@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import { getLoggedInUserId } from '../../lib/auth'
+import CustomToast from './CustomToast'
 
 const SaveModal = ({ value, handleEditSave, canEdit }) => {
 
   const [show, setShow] = useState(false)
+  const [modalShow, setModalShow] = useState(false)
 
   const genres = [
     'Dance', 'Pop', 'Hip Hop', 'Drum n Bass',
@@ -28,13 +31,16 @@ const SaveModal = ({ value, handleEditSave, canEdit }) => {
   }
 
   const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleShow = () => {
+    getLoggedInUserId() ? setShow(true) : setModalShow(!modalShow)
+  }
   
   return <>
+        <CustomToast message={'You need to be logged in to edit/save a song!'} show={modalShow} setShow={setModalShow} />
         <Button className="loadSaveButtons" variant="primary" onClick={handleShow}>
           <i className="fa fa-2x fa-floppy-o"/>
         </Button>
-        <Button className="loadSaveButtons" href="/usersongpage"><i className="fa fa-2x fa-folder-open-o"/></Button>
+        <Button className="loadSaveButtons" href={`${getLoggedInUserId() ? '/usersongpage' : '/songpage'}`}><i className="fa fa-2x fa-folder-open-o"/></Button>
   
         <Modal
           show={show}
