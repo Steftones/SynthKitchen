@@ -68,12 +68,12 @@ SynthKitchen is an app that allows users to synthesize sequences of notes and pl
 ##### InVision
 I began by using a third-party tool InVision to create a wireframe of the app, working out all essential features for an MVP, planning application state and drawing out the user journey. I then focused on the Model View Controller design and used InVision to plan the models and relationships between them.
 
-![Invision](derive-images/derive1.png)
+![Invision](synthKitchenImages/synthKitchenInvision.png)
 
 ##### Trello
 Trello was used to recreate a Kanban agile methodology, with user stories organised as tickets for both the front end and back end.
 
-![Trello planning](./derive-images/derive2.png)
+![Trello planning](synthKitchenImages/synthKitchenTrello.png)
 
 
 ## Backend
@@ -255,14 +255,14 @@ If you have spotted any additional bugs, please let me know by <a href="mailto:s
 
 
 ## The Finished Product
-![Home page](./synthKitchen-images/synthKitchen1.png)
+![Home page](synthKitchenImages/synthKitchen1.png)
 
-![Login page](./synthKitchen-images/synthKitchen2.png)
+![Login page](synthKitchenImages/synthKitchen2.png)
 
-![Song page](./synthKitchen-images/synthKitchen3.png)
+![Song page](synthKitchenImages/synthKitchen3.png)
 
-![Choosing note conditions](./synthKitchen-images/synthKitchen4.png)
+![Choosing note conditions](synthKitchenImages/synthKitchen4.png)
 
-![The song community](./synthKitchen-images/synthKitchen5.png)
+![The song community](synthKitchenImages/synthKitchen5.png)
 
-![Commenting on a song](./synthKitchen-images/synthKitchen6.png)
+![Commenting on a song](synthKitchenImages//synthKitchen6.png)
