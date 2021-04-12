@@ -5,7 +5,7 @@
 ## Overview
 SynthKitchen is an app that allows users to synthesize sequences of notes and play them back in time. It features six different synthesizers that create both percussive and melodic sounds. This 7-day project could be completed either solo or in a group, and I decided to go solo so that I could immerse myself in all areas of the stack.
 
-<a href=”https://synthkitchen.herokuapp.com/” alt=”SynthKitchen”>Click here to use the app.</a>.
+[Click here to use the app.](https://synthkitchen.herokuapp.com/)
 
 
 ### Project Brief
