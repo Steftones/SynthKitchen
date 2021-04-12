@@ -65,12 +65,12 @@ SynthKitchen is an app that allows users to synthesize sequences of notes and pl
 
 
 ## Setting the Foundations
-##### InVision
+### InVision
 I began by using a third-party tool InVision to create a wireframe of the app, working out all essential features for an MVP, planning application state and drawing out the user journey. I then focused on the Model View Controller design and used InVision to plan the models and relationships between them.
 
 ![Invision](synthKitchenImages/synthKitchenInvision.png)
 
-##### Trello
+### Trello
 Trello was used to recreate a Kanban agile methodology, with user stories organised as tickets for both the front end and back end.
 
 ![Trello planning](synthKitchenImages/synthKitchenTrello.png)
