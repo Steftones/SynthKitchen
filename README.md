@@ -64,23 +64,23 @@ SynthKitchen is an app that allows users to synthesize sequences of notes and pl
 </table>
 
 
-##Setting the Foundations
-#####InVision
+## Setting the Foundations
+##### InVision
 I began by using a third-party tool InVision to create a wireframe of the app, working out all essential features for an MVP, planning application state and drawing out the user journey. I then focused on the Model View Controller design and used InVision to plan the models and relationships between them.
 
-![Invision](./derive-images/derive1.png)
+![Invision](derive-images/derive1.png)
 
-#####Trello
+##### Trello
 Trello was used to recreate a Kanban agile methodology, with user stories organised as tickets for both the front end and back end.
 
 ![Trello planning](./derive-images/derive2.png)
 
 
-##Backend
+## Backend
 With a plan in place, I started with the back-end, focusing on facilitating relationships between the models and concentrating on implementing Model View Controller design. There were three models in total (users, songs, comments), as well as a base model that was extended to these models.
 
 
-###Model
+### Model
 Below is an example of the user model which is linked to Song and Comment models. It was important to ensure the ForeignKey and relationships between models were correct, including any cascading relationships (to ensure for instance that deleting songs would not delete a user).
 
 ```
@@ -99,7 +99,7 @@ class User(db.Model, BaseModel):
 
 
 
-###View
+### View
 Serializers were created and tested to ensure that all required data was correctly stored and that relationships between different tables were reflected. Schemas had nested fields and ‘simple’ schemas created to ensure that there were no circular import errors. These simple schemas were also used to nest certain data within other models, e.g. displaying user information within a song without displaying all the user’s songs.
 
 ```
@@ -128,18 +128,18 @@ class SimpleUserSchema(ma.SQLAlchemyAutoSchema):
 
 
 
-###Controller
+### Controller
 For the controllers I built-in authorization functionality using a ```secure_route``` decorator which checked if API call’s included valid web tokens. I created several other decorators for error handling and logging API requests. CRUD functionality was tested extensively using Insomnia, a rudimentary client. Users could register and log in, as well as post, create, edit and delete both songs and comments. Once a robust back-end was in place, I began writing pseudocode for the main feature logic.
 
 
 
-##Instruments
+## Instruments
 I used a web-audio framework ToneJS to facilitate the main musical functionality. ToneJS provides a way of manipulating ```audioContext``` to synthesize sounds in the browser. 
 
 I created ```Instrument``` classes to create new synthesizer instances, featuring methods that could change various synthesis parameters and effects. In ToneJS, instances of effect classes need to be constructed, routed to an instrument and then disposed of, which proved challenging to deal with. I was hoping to have a single class to create instruments from, but I encountered many challenges regarding setting polyphonic synthesizer properties so I had to extend the ```Instrument``` class to a ```PolyInstrument``` class.
 
 
-##Sequencer design and state
+## Sequencer design and state
 The app’s main functionality can be found within the ```Sequencer``` component - this is where all the sounds are synthesized and a user creates a “song”. Various components were created to allow the user to tweak different parameters and musical properties. Users create sequences of notes with “step sequencers”.
 
 I decided to make use of React’s ```useContext``` hook to store song information. The App router was wrapped with a User Context provider, making it easy for information to be passed between components. When required, the context could be imported into any component as follows:
@@ -216,17 +216,17 @@ let round = 1
 ```
 
 
-##Design features
+## Design features
 The majority of design and styling was achieved using React Bootstrap which provided some great responsive design and animated elements but also had many customizable features making it slow to code. I incorporated the use of various interactive Bootstrap components to improve UX, such as ```Toast``` to point out errors, ```Tooltip``` elements to create a “help” section, and various animated components. I feel that given more time it would have been better to focus on the overall design, and it was rushed due to the time-critical nature of the assignment.
 
 
-##Challenges
+## Challenges
 * Getting instruments to play in time without the app glitching.
 * Chaining effects to each instrument and removing them was difficult.
 * Some aspects of code are not as programmatic as they could be.
 * There is some inconsistent styling used throughout the project.
 
-###Bugs
+### Bugs
 * On occasion, when a step condition is selected, subsequent activated steps will inherit this condition.
 * After a user has saved an edited version of their song sometimes they will not be able to effectively select effects.
 * When a user is not logged in, they have the option to leave a comment which is not saved.
@@ -235,7 +235,7 @@ The majority of design and styling was achieved using React Bootstrap which prov
 If you have spotted any additional bugs, please let me know by <a href="mailto:stefansokolowski16@gmail.com">email</a>.
 
 
-##Achievements
+## Achievements
 * I always had an idea to make this project before the course started, and it felt great that I was able to create it.
 * Navigating a web audio framework and creating features based on reading its documentation.
 * Creating an app with genuine utility and some interesting features.
@@ -254,7 +254,7 @@ If you have spotted any additional bugs, please let me know by <a href="mailto:s
 * Additional features for instruments, e.g. signal filtering.
 
 
-##The Finished Product
+## The Finished Product
 ![Home page](./synthKitchen-images/synthKitchen1.png)
 
 ![Login page](./synthKitchen-images/synthKitchen2.png)
