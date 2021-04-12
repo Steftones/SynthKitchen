@@ -232,7 +232,8 @@ The majority of design and styling was achieved using React Bootstrap which prov
 * When a user is not logged in, they have the option to leave a comment which is not saved.
 * The app does not effectively scale for mobile and the step sequencer displays incorrectly with small screen size.
 
-If you have spotted any additional bugs, please let me know by <a href="mailto:stefansokolowski16@gmail.com">email</a>.
+
+If you have spotted any additional bugs, please let me know by [email.](mailto:stefansokolowski16@gmail.com)
 
 
 ## Achievements
