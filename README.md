@@ -242,14 +242,14 @@ If you have spotted any additional bugs, please let me know by [email.](mailto:s
 * Creating an app with genuine utility and some interesting features.
 
 
-##Key learnings
+## Key learnings
 * Learning about the differences in app performance optimization between local development and deployment. This helped me navigate performance-based challenges with my app.
 * I learnt a new framework and a lot about how to use classes in JS as a result.
 * Learning about lifting state up and refactoring components.
 * Learning about different hooks such as useContext.
 
 
-##Features I'd like to implement
+## Features I'd like to implement
 * Having a many-to-many relationship in the backend, allowing users to create instruments and presets that can be shared publicly.
 * An ability to increase the sequence’s length.
 * Additional features for instruments, e.g. signal filtering.
